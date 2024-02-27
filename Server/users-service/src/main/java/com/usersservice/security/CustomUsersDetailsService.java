@@ -3,6 +3,7 @@ package com.usersservice.security;
 import com.usersservice.model.Role;
 import com.usersservice.model.User;
 import com.usersservice.repository.IUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,10 @@ import java.util.stream.Collectors;
 @Service
 public class CustomUsersDetailsService implements UserDetailsService {
     private IUserRepository userRepository;
+    @Autowired
+    public CustomUsersDetailsService(IUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     // Metodo para traer lista de autoridades mediante lista de roles
     public Collection<GrantedAuthority> mapToAuthorities(List<Role> roles){
