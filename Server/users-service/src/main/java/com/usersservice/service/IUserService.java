@@ -17,6 +17,9 @@ public interface IUserService {
     // Metodo para traer un usuario por id
     public User getUserById(Long id_user);
 
+    // Metodo para traer un usuario por email
+    public User getUserByEmail(String email);
+
     // Metodo para editar usuario
     public User editUser(User user);
 
@@ -25,5 +28,6 @@ public interface IUserService {
 
     // Metodo para ver si existe un usuario por email
     Boolean existsByEmail(String email);
+
 
 }

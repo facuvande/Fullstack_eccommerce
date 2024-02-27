@@ -25,6 +25,9 @@ public class UserService implements IUserService{
             return new ResponseEntity<>(Map.of("message","Ya existe un usuario con ese email, intente con otro"), HttpStatus.BAD_REQUEST);
         }
 
+        // Hashear password
+
+
         // Todo: Crear carrito y asignar id de carrito al usuario
 
         User newUser = new User();
@@ -47,6 +50,11 @@ public class UserService implements IUserService{
     @Override
     public User getUserById(Long id_user) {
         return userRepository.findById(id_user).orElse(null);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 
     @Override
