@@ -9,7 +9,7 @@ import java.util.List;
 public interface IUserService {
 
     // Metodo para crear usuario
-    public ResponseEntity<String> createUser(UserDTO userDTO);
+    public ResponseEntity<?> createUser(UserDTO userDTO);
 
     // Metodo para traer todos los usuarios
     public List<User> getUsers();

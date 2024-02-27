@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService implements IUserService{
@@ -17,11 +18,11 @@ public class UserService implements IUserService{
     private IUserRepository userRepository;
 
     @Override
-    public ResponseEntity<String> createUser(UserDTO userDTO) {
+    public ResponseEntity<?> createUser(UserDTO userDTO) {
 
         // Verificar si existe el usuario con ese email
         if(this.existsByEmail(userDTO.getEmail())){
-            return new ResponseEntity<>("Ya existe un usuario con ese email, intente con otro", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Ya existe un usuario con ese email, intente con otro"), HttpStatus.BAD_REQUEST);
         }
 
         // Todo: Crear carrito y asignar id de carrito al usuario
@@ -35,7 +36,7 @@ public class UserService implements IUserService{
         newUser.setLastname(userDTO.getLastname());
 
         User userCreated = userRepository.save(newUser);
-        return new ResponseEntity<>("Registro de usuario exitoso", HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message", "Registro de usuario exitoso"), HttpStatus.OK);
     }
 
     @Override

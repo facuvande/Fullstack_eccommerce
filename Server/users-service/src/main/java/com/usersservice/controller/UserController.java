@@ -18,7 +18,7 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("")
-    public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO){
         return userService.createUser(userDTO);
     }
 //    public List<User> getUsers();

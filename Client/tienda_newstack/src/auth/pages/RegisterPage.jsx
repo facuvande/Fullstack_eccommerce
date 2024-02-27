@@ -33,7 +33,7 @@ export const RegisterPage = () => {
             })
 
             const data = await response.json();
-            console.log(data);
+            console.log(data.message);
         } catch (error) {
             console.log(error);
         }
