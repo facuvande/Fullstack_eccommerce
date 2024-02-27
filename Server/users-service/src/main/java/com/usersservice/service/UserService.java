@@ -26,6 +26,14 @@ public class UserService implements IUserService{
     @Autowired
     private IUserRepository userRepository;
 
+    public UserService(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, IRolRepository roleRepository, JwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository) {
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+        this.jwtTokenGenerator = jwtTokenGenerator;
+        this.userRepository = userRepository;
+    }
+
     @Override
     public ResponseEntity<?> createUser(UserDTO userDTO) {
 
