@@ -4,6 +4,7 @@ import { Routes } from 'react-router-dom'
 import { RegisterPage } from '../auth/pages/RegisterPage';
 import { Navigate } from 'react-router-dom';
 import { TiendaPage } from '../ecommerce/pages/EcommercePage';
+import { LoginPage } from '../auth/pages/LoginPage';
 
 export const AppRouter = () => {
 
@@ -23,7 +24,7 @@ export const AppRouter = () => {
                 : (
                     <>
                         <Route path='/auth/register' element={<RegisterPage/>}/>
-                        <Route path='/auth/login' element={<RegisterPage/>}/>
+                        <Route path='/auth/login' element={<LoginPage/>}/>
                         <Route path='/cart' element={<Navigate to="/auth/login"/>}/>
                         <Route path='*' element={<Navigate to="/"/>}/>
                     </>
