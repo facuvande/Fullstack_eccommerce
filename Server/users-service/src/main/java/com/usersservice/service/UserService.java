@@ -39,7 +39,7 @@ public class UserService implements IUserService{
         user.setLastname(userDTO.getLastname());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setEmail(userDTO.getEmail());
-        Role roles = roleRepository.findByName("USER").get();
+        Role roles = roleRepository.findByName("USER");
         user.setRol(Collections.singletonList(roles));
         // Todo: Crear carrito y asignar id de carrito al usuario
         user.setId_cart(3L);
