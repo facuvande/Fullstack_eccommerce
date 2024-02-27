@@ -44,7 +44,7 @@ export const RegisterPage = () => {
                         <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </div>
                 </div>
-                <div className="login-redirect">Ya tienes cuenta? <Link to="/login">Logeate!</Link></div>
+                <div className="login-redirect">Ya tienes cuenta? <Link to="/auth/login">Logeate!</Link></div>
                 <div className="submit-container">
                     <button type='submit' className="submit">Continuar</button>
                 </div>
