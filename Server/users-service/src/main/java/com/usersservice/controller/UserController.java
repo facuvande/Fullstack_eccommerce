@@ -1,5 +1,6 @@
 package com.usersservice.controller;
 
+import com.usersservice.dto.UserDTO;
 import com.usersservice.model.User;
 import com.usersservice.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("")
-    public ResponseEntity<String> createUser(@RequestBody User user){
-        return userService.createUser(user);
+    public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO){
+        return userService.createUser(userDTO);
     }
 //    public List<User> getUsers();
 //    public User getUserById(Long id_user);

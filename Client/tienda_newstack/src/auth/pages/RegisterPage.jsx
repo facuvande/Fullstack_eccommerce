@@ -11,12 +11,32 @@ import { Link } from 'react-router-dom'
 export const RegisterPage = () => {
 
     const [name, setName] = useState('')
-    const [lastName, setLastName] = useState('')
+    const [lastname, setLastname] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+
+        try {
+            const response = await fetch('http://localhost:8082/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name,
+                    lastname,
+                    email,
+                    password,
+                })
+            })
+
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -33,7 +53,7 @@ export const RegisterPage = () => {
                     </div>
                     <div className='input'>
                         <img src={user_icon} alt=''/>
-                        <input type='text' placeholder='Apellido' value={lastName} onChange={(e) => setLastName(e.target.value)}/>
+                        <input type='text' placeholder='Apellido' value={lastname} onChange={(e) => setLastname(e.target.value)}/>
                     </div>
                     <div className='input'>
                         <img src={email_icon} alt=''/>

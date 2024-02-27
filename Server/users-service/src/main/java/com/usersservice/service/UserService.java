@@ -1,5 +1,6 @@
 package com.usersservice.service;
 
+import com.usersservice.dto.UserDTO;
 import com.usersservice.model.User;
 import com.usersservice.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +17,24 @@ public class UserService implements IUserService{
     private IUserRepository userRepository;
 
     @Override
-    public ResponseEntity<String> createUser(User user) {
+    public ResponseEntity<String> createUser(UserDTO userDTO) {
 
         // Verificar si existe el usuario con ese email
-        if(this.existsByEmail(user.getEmail())){
+        if(this.existsByEmail(userDTO.getEmail())){
             return new ResponseEntity<>("Ya existe un usuario con ese email, intente con otro", HttpStatus.BAD_REQUEST);
         }
 
         // Todo: Crear carrito y asignar id de carrito al usuario
-        User userCreated = userRepository.save(user);
+
+        User newUser = new User();
+        newUser.setEmail(userDTO.getEmail());
+        newUser.setName(userDTO.getName());
+        newUser.setRol(null);
+        newUser.setPassword(userDTO.getPassword());
+        newUser.setId_cart(1L);
+        newUser.setLastname(userDTO.getLastname());
+
+        User userCreated = userRepository.save(newUser);
         return new ResponseEntity<>("Registro de usuario exitoso", HttpStatus.OK);
     }
 

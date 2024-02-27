@@ -1,5 +1,6 @@
 package com.usersservice.service;
 
+import com.usersservice.dto.UserDTO;
 import com.usersservice.model.User;
 import org.springframework.http.ResponseEntity;
 
@@ -8,7 +9,7 @@ import java.util.List;
 public interface IUserService {
 
     // Metodo para crear usuario
-    public ResponseEntity<String> createUser(User user);
+    public ResponseEntity<String> createUser(UserDTO userDTO);
 
     // Metodo para traer todos los usuarios
     public List<User> getUsers();
