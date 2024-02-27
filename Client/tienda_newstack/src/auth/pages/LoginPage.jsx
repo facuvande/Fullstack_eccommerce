@@ -6,6 +6,7 @@ import password_icon from '../assets/password.png'
 import './LoginPage.css'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 
 export const LoginPage = () => {
 
@@ -29,11 +30,46 @@ export const LoginPage = () => {
 
             const data = await response.json();
             console.log(data)
-            console.log(data.message);
+            
+            if(data.accessToken){
+                localStorage.clear();
+                // Guardar datos en localStorage
+                localStorage.setItem('userData', JSON.stringify(data));
+                window.location.href = '/';
+            }
+
         } catch (error) {
             console.log(error);
         }
     }
+
+    useEffect(() => {
+        const tokenExtract = JSON.parse(localStorage.getItem('userData'));
+
+        if(tokenExtract && tokenExtract.accessToken){
+            const token = tokenExtract.accessToken;
+            fetch('http://localhost:8082/users/auth/validateToken', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if(response.ok){
+                    window.location.href = '/';
+                }else{
+                    localStorage.clear();
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        }else{
+            console.log("no hay token disponible");
+        }
+
+    }, [])
 
     return (
         <div className='container'>

@@ -65,9 +65,18 @@ public class UserService implements IUserService{
     public ResponseEntity<AuthResponseDTO> login(LoginDTO loginDTO) {
         // Validamos informacion y seteamos el usuario en el contexto de la app
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+
+        // Traemos usuario por email
+        User user = this.getUserByEmail(loginDTO.getEmail());
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtTokenGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+        return new ResponseEntity<>(new AuthResponseDTO(token, user.getName(), user.getLastname(), user.getEmail()), HttpStatus.OK);
+    }
+
+    @Override
+    public Boolean validateToken(String token) {
+        return jwtTokenGenerator.validateToken(token);
     }
 
     @Override

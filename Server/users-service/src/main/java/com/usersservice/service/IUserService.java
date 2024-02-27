@@ -17,6 +17,9 @@ public interface IUserService {
     //Metodo para Logear un usuario retornando un token
     public ResponseEntity<AuthResponseDTO> login(LoginDTO loginDTO);
 
+    // Metodo para validar token jwt
+    public Boolean validateToken(String token);
+
     // Metodo para traer todos los usuarios
     public List<User> getUsers();
 

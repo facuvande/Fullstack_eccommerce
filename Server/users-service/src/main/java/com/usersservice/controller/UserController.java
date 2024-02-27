@@ -34,6 +34,16 @@ public class UserController {
         return userService.login(loginDTO);
     }
 
+    @PostMapping("/auth/validateToken")
+    public Boolean validateToken(@RequestHeader("Authorization") String authorizationHeader){
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+            String token = authorizationHeader.substring(7);
+            boolean isValidToken = userService.validateToken(token);
+            return true;
+        }
+        return false;
+    }
+
 
 //    public List<User> getUsers();
 //    public User getUserById(Long id_user);
