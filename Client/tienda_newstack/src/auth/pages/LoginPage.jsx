@@ -9,13 +9,30 @@ import { Link } from 'react-router-dom'
 
 export const LoginPage = () => {
 
-    const [name, setName] = useState('')
-    const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+
+        try {
+            const response = await fetch('http://localhost:8082/users/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                })
+            })
+
+            const data = await response.json();
+            console.log(data)
+            console.log(data.message);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (

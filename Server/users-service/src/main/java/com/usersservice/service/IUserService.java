@@ -1,15 +1,21 @@
 package com.usersservice.service;
 
+import com.usersservice.dto.AuthResponseDTO;
+import com.usersservice.dto.LoginDTO;
 import com.usersservice.dto.UserDTO;
 import com.usersservice.model.User;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 public interface IUserService {
 
-    // Metodo para crear usuario
+    // Metodo para crear usuario (Register)
     public ResponseEntity<?> createUser(UserDTO userDTO);
+
+    //Metodo para Logear un usuario retornando un token
+    public ResponseEntity<AuthResponseDTO> login(LoginDTO loginDTO);
 
     // Metodo para traer todos los usuarios
     public List<User> getUsers();

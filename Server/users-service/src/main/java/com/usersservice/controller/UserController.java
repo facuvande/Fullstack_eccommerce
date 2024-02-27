@@ -1,5 +1,7 @@
 package com.usersservice.controller;
 
+import com.usersservice.dto.AuthResponseDTO;
+import com.usersservice.dto.LoginDTO;
 import com.usersservice.dto.UserDTO;
 import com.usersservice.dto.UserResponseDTO;
 import com.usersservice.model.User;
@@ -27,7 +29,10 @@ public class UserController {
         return userService.createUser(userDTO);
     }
 
-
+    @PostMapping("/auth/login")
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO){
+        return userService.login(loginDTO);
+    }
 
 
 //    public List<User> getUsers();
