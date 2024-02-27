@@ -1,5 +1,7 @@
 package com.usersservice.security;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.Authentication;
@@ -22,6 +24,14 @@ public class JwtTokenGenerator {
                 .signWith(SignatureAlgorithm.HS512, "firma")
                 .compact();
         return token;
+    }
+
+    public String getUsernameByJwt(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey("firma")
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
     }
 
 }
