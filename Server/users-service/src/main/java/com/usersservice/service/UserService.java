@@ -1,19 +1,28 @@
 package com.usersservice.service;
 
 import com.usersservice.dto.UserDTO;
+import com.usersservice.model.Role;
 import com.usersservice.model.User;
+import com.usersservice.repository.IRolRepository;
 import com.usersservice.repository.IUserRepository;
+import com.usersservice.security.JwtTokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class UserService implements IUserService{
-
+    private AuthenticationManager authenticationManager;
+    private PasswordEncoder passwordEncoder;
+    private IRolRepository roleRepository;
+    private JwtTokenGenerator jwtTokenGenerator;
     @Autowired
     private IUserRepository userRepository;
 
@@ -22,23 +31,20 @@ public class UserService implements IUserService{
 
         // Verificar si existe el usuario con ese email
         if(this.existsByEmail(userDTO.getEmail())){
-            return new ResponseEntity<>(Map.of("message","Ya existe un usuario con ese email, intente con otro"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Ya existe un usuario registrado con ese email, intente con otro"), HttpStatus.BAD_REQUEST);
         }
 
-        // Hashear password
-
-
+        User user = new User();
+        user.setName(userDTO.getName());
+        user.setLastname(userDTO.getLastname());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setEmail(userDTO.getEmail());
+        Role roles = roleRepository.findByName("USER").get();
+        user.setRol(Collections.singletonList(roles));
         // Todo: Crear carrito y asignar id de carrito al usuario
+        user.setId_cart(3L);
+        userRepository.save(user);
 
-        User newUser = new User();
-        newUser.setEmail(userDTO.getEmail());
-        newUser.setName(userDTO.getName());
-        newUser.setRol(null);
-        newUser.setPassword(userDTO.getPassword());
-        newUser.setId_cart(1L);
-        newUser.setLastname(userDTO.getLastname());
-
-        User userCreated = userRepository.save(newUser);
         return new ResponseEntity<>(Map.of("message", "Registro de usuario exitoso"), HttpStatus.OK);
     }
 
