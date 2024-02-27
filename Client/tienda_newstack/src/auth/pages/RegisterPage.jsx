@@ -19,7 +19,7 @@ export const RegisterPage = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8082/users', {
+            const response = await fetch('http://localhost:8082/users/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
