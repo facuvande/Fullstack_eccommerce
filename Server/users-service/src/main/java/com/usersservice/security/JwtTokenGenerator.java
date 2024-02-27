@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,15 @@ public class JwtTokenGenerator {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();
+    }
+
+    public Boolean validateToken(String token){
+        try{
+            Jwts.parser().setSigningKey("firma").parseClaimsJws(token);
+            return true;
+        }catch (Exception e){
+            throw new AuthenticationCredentialsNotFoundException("Jwt expirado o incorrecto");
+        }
     }
 
 }

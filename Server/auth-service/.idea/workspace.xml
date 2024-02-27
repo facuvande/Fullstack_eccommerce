@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65e07ed0-f25b-4742-b92e-c37ce3ae291a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../users-service/src/main/java/com/usersservice/security/CustomUsersDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../users-service/src/main/java/com/usersservice/security/CustomUsersDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../users-service/src/main/java/com/usersservice/security/JwtTokenGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../users-service/src/main/java/com/usersservice/security/JwtTokenGenerator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
