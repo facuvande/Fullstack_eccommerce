@@ -1,13 +1,13 @@
 import React from 'react'
 import { Route } from 'react-router-dom';
 import { Routes } from 'react-router-dom'
-import { LoginPage } from '../auth/pages/LoginPage';
+import { RegisterPage } from '../auth/pages/RegisterPage';
 import { Navigate } from 'react-router-dom';
-import { TiendaPage } from './TiendaPage';
+import { TiendaPage } from '../ecommerce/pages/EcommercePage';
 
 export const AppRouter = () => {
 
-    const autenticado = true;
+    const autenticado = false;
 
     return (
         <Routes>
@@ -22,7 +22,8 @@ export const AppRouter = () => {
                 ) 
                 : (
                     <>
-                        <Route path='/auth/*' element={<LoginPage/>}/>
+                        <Route path='/auth/register' element={<RegisterPage/>}/>
+                        <Route path='/auth/login' element={<RegisterPage/>}/>
                         <Route path='/cart' element={<Navigate to="/auth/login"/>}/>
                         <Route path='*' element={<Navigate to="/"/>}/>
                     </>
