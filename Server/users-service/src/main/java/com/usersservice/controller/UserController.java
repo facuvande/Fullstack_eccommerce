@@ -46,11 +46,11 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("")
+    @GetMapping("/api")
     public ResponseEntity<List<UserResponseDTO>> getUsers(){
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
-    @GetMapping("/{id_user}")
+    @GetMapping("/api/{id_user}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id_user){
         UserResponseDTO myUser = userService.getUserById(id_user);
         if(myUser != null) {
@@ -58,7 +58,7 @@ public class UserController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    @DeleteMapping("/{id_user}")
+    @DeleteMapping("/api/{id_user}")
     public ResponseEntity<?> deleteUserById(@PathVariable Long id_user){
         userService.deleteUserById(id_user);
         return new ResponseEntity<>("User deleted", HttpStatus.OK);
