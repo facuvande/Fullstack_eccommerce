@@ -1,7 +1,10 @@
 package com.usersservice.dto;
 
 
+import com.usersservice.model.Role;
 import lombok.*;
+
+import java.util.List;
 
 @Getter @Setter
 @AllArgsConstructor
@@ -12,4 +15,5 @@ public class ValidationTokenDTO {
     private String name;
     private String lastName;
     private String email;
+    private List<Role> rol;
 }

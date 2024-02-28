@@ -38,9 +38,9 @@ public class UserController {
             boolean isValidToken = userService.validateToken(token);
             if(isValidToken){
                 User user = userService.getUserByEmail(userService.getUsernameByToken(token));
-                return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail()), HttpStatus.OK);
+                return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail(), user.getRol()), HttpStatus.OK);
             }else{
-                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null), HttpStatus.BAD_REQUEST);
             }
         }
         return new ResponseEntity<>(HttpStatus.OK);
