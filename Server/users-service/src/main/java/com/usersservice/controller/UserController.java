@@ -40,7 +40,7 @@ public class UserController {
                 User user = userService.getUserByEmail(userService.getUsernameByToken(token));
                 return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail()), HttpStatus.OK);
             }else{
-                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null), HttpStatus.OK);
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null), HttpStatus.BAD_REQUEST);
             }
         }
         return new ResponseEntity<>(HttpStatus.OK);

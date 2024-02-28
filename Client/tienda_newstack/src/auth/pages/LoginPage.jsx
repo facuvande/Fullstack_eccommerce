@@ -34,7 +34,7 @@ export const LoginPage = () => {
             if(data.accessToken){
                 localStorage.clear();
                 // Guardar datos en localStorage
-                localStorage.setItem('userData', JSON.stringify(data));
+                localStorage.setItem('userData', JSON.stringify(data.accessToken));
                 window.location.href = '/';
             }
 
@@ -44,10 +44,9 @@ export const LoginPage = () => {
     }
 
     useEffect(() => {
-        const tokenExtract = JSON.parse(localStorage.getItem('userData'));
+        const token = JSON.parse(localStorage.getItem('userData'));
 
-        if(tokenExtract && tokenExtract.accessToken){
-            const token = tokenExtract.accessToken;
+        if(token){
             fetch('http://localhost:8082/users/auth/validateToken', {
                 method: 'POST',
                 headers: {
