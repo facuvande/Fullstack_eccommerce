@@ -80,6 +80,11 @@ public class UserService implements IUserService{
     }
 
     @Override
+    public String getUsernameByToken(String token) {
+        return jwtTokenGenerator.getUsernameByJwt(token);
+    }
+
+    @Override
     public List<User> getUsers() {
         return userRepository.findAll();
     }

@@ -1,9 +1,6 @@
 package com.usersservice.controller;
 
-import com.usersservice.dto.AuthResponseDTO;
-import com.usersservice.dto.LoginDTO;
-import com.usersservice.dto.UserDTO;
-import com.usersservice.dto.UserResponseDTO;
+import com.usersservice.dto.*;
 import com.usersservice.model.User;
 import com.usersservice.repository.IRolRepository;
 import com.usersservice.security.JwtTokenGenerator;
@@ -35,13 +32,18 @@ public class UserController {
     }
 
     @PostMapping("/auth/validateToken")
-    public Boolean validateToken(@RequestHeader("Authorization") String authorizationHeader){
+    public ResponseEntity<ValidationTokenDTO> validateToken(@RequestHeader("Authorization") String authorizationHeader){
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
             String token = authorizationHeader.substring(7);
             boolean isValidToken = userService.validateToken(token);
-            return true;
+            if(isValidToken){
+                User user = userService.getUserByEmail(userService.getUsernameByToken(token));
+                return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail()), HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null), HttpStatus.OK);
+            }
         }
-        return false;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

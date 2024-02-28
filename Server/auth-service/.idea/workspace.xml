@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65e07ed0-f25b-4742-b92e-c37ce3ae291a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Client/tienda_newstack/src/auth/pages/LoginPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/tienda_newstack/src/auth/pages/LoginPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../users-service/src/main/java/com/usersservice/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../users-service/src/main/java/com/usersservice/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../users-service/src/main/java/com/usersservice/dto/AuthResponseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../users-service/src/main/java/com/usersservice/dto/AuthResponseDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../users-service/src/main/java/com/usersservice/service/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../users-service/src/main/java/com/usersservice/service/IUserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../users-service/src/main/java/com/usersservice/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../users-service/src/main/java/com/usersservice/service/UserService.java" afterDir="false" />
     </list>

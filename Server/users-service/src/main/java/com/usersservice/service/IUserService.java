@@ -20,6 +20,9 @@ public interface IUserService {
     // Metodo para validar token jwt
     public Boolean validateToken(String token);
 
+    // Metodo para traer username (email) por token
+    public String getUsernameByToken(String token);
+
     // Metodo para traer todos los usuarios
     public List<User> getUsers();
 
