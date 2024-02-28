@@ -23,6 +23,7 @@ export const AppRouter = () => {
                 ) 
                 : (
                     <>
+                        <Route path='/' element={<TiendaPage/>}/>
                         <Route path='/auth/register' element={<RegisterPage/>}/>
                         <Route path='/auth/login' element={<LoginPage/>}/>
                         <Route path='/cart' element={<Navigate to="/auth/login"/>}/>

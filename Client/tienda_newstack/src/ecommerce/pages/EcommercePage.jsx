@@ -1,7 +1,12 @@
 import React from 'react'
+import { Navbar } from '../components/Navbar'
+import { Hero } from '../components/Hero'
 
 export const TiendaPage = () => {
   return (
-    <div>TiendaPage</div>
+    <>
+      <Navbar/>
+      <Hero/>
+    </>
   )
 }

@@ -1,0 +1,17 @@
+.hero-container{
+    text-align: center;
+    margin-top: 15%;
+}
+.hero-container h1{
+    font-size: 80px;
+    font-weight: 700;
+    color: #10A37F;
+}
+.hero-container h2{
+    font-size: 28px;
+    font-weight: 500;
+}
+.hero-container .current{
+    font-size: 40px;
+    margin-top: 50px;
+}
