@@ -3,6 +3,7 @@ package com.usersservice.service;
 import com.usersservice.dto.AuthResponseDTO;
 import com.usersservice.dto.LoginDTO;
 import com.usersservice.dto.UserDTO;
+import com.usersservice.dto.UserResponseDTO;
 import com.usersservice.model.Role;
 import com.usersservice.model.User;
 import com.usersservice.repository.IRolRepository;
@@ -18,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -85,23 +87,28 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<UserResponseDTO> getUsers() {
+        List<User> listUsers = userRepository.findAll();
+        List<UserResponseDTO> listUserResponse = new ArrayList<>();
+
+        for(User user : listUsers){
+            listUserResponse.add(new UserResponseDTO(user.getName(), user.getLastname(), user.getEmail(), user.getRol(), user.getId_cart()));
+        }
+        return listUserResponse;
     }
 
     @Override
-    public User getUserById(Long id_user) {
-        return userRepository.findById(id_user).orElse(null);
+    public UserResponseDTO getUserById(Long id_user) {
+        User user = userRepository.findById(id_user).orElse(null);
+        if(user != null){
+            return new UserResponseDTO(user.getName(), user.getLastname(), user.getEmail(), user.getRol(), user.getId_cart());
+        }
+        return null;
     }
 
     @Override
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
-    }
-
-    @Override
-    public User editUser(User user) {
-        return userRepository.save(user);
     }
 
     @Override

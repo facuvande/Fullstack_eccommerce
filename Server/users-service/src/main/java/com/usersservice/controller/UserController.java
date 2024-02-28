@@ -46,10 +46,22 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-//    public List<User> getUsers();
-//    public User getUserById(Long id_user);
-//    public User editUser(User user);
-//    public void deleteUserById(Long id_user);
+    @GetMapping("")
+    public ResponseEntity<List<UserResponseDTO>> getUsers(){
+        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
+    }
+    @GetMapping("/{id_user}")
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id_user){
+        UserResponseDTO myUser = userService.getUserById(id_user);
+        if(myUser != null) {
+            return new ResponseEntity<>(myUser, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    @DeleteMapping("/{id_user}")
+    public ResponseEntity<?> deleteUserById(@PathVariable Long id_user){
+        userService.deleteUserById(id_user);
+        return new ResponseEntity<>("User deleted", HttpStatus.OK);
+    }
 
 }
