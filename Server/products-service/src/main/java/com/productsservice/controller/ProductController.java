@@ -15,8 +15,6 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
-    // TODO: Hacer que cuando se llama a un edpoint este llame a users-service para traer el rol del usuario, agarrando el token del autorizathion
-
     @Autowired
     private IProductService productService;
 
@@ -60,6 +58,16 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    // USER OR ADMIN
+    public ResponseEntity<?> decreaseStock(Long id_product, int quantity, HttpServletRequest request){
+        if(!hasAdminUserRole(request)){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        Product myProduct = this.productService.getProductById(id_product);
+        myProduct.setStock(myProduct.getStock() - quantity);
+        return new ResponseEntity<>(productService.editProduct(myProduct), HttpStatus.OK);
+    }
+
     private String extractTokenFromHeader(HttpServletRequest request){
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
@@ -74,6 +82,16 @@ public class ProductController {
             String role = String.valueOf(productService.getRoleByToken(token));
             return "ADMIN".equals(role);
         } catch (FeignException.Unauthorized e){
+            return false;
+        }
+    }
+
+    private boolean hasAdminUserRole(HttpServletRequest request){
+        String token = extractTokenFromHeader(request);
+        try {
+            String role = String.valueOf(productService.getRoleByToken(token));
+            return "USER".equals(role) || "ADMIN".equals(role);
+        } catch (FeignException.Unauthorized e) {
             return false;
         }
     }
