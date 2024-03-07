@@ -45,11 +45,18 @@ public class UserController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("/auth/role/{token}")
+    public ResponseEntity<String> getRoleByToken(@PathVariable String token){
+        String email = userService.getUsernameByToken(token);
+        return new ResponseEntity<>(userService.getRoleByEmail(email), HttpStatus.OK);
+    }
 
     @GetMapping("/api")
     public ResponseEntity<List<UserResponseDTO>> getUsers(){
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
+
+
     @GetMapping("/api/{id_user}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id_user){
         UserResponseDTO myUser = userService.getUserById(id_user);

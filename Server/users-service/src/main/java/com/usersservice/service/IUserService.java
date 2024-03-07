@@ -24,6 +24,9 @@ public interface IUserService {
     // Metodo para traer username (email) por token
     public String getUsernameByToken(String token);
 
+    // Metodo para traer el rol a traves de un email
+    public String getRoleByEmail(String email);
+
     // Metodo para traer todos los usuarios
     public List<UserResponseDTO> getUsers();
 

@@ -11,5 +11,6 @@ public interface IProductService {
     public Product getProductById(Long id_product);
     public Product editProduct(Product product);
     public void deleteProductById(Long id_product);
+    public String getRoleByToken(String token);
 
 }

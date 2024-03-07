@@ -83,7 +83,19 @@ public class UserService implements IUserService{
 
     @Override
     public String getUsernameByToken(String token) {
-        return jwtTokenGenerator.getUsernameByJwt(token);
+
+        String username = jwtTokenGenerator.getUsernameByJwt(token);
+        return username;
+    }
+
+    @Override
+    public String getRoleByEmail(String email) {
+        User myUser = userRepository.findByEmail(email).orElse(null);
+        String rolName = null;
+        for(Role rol : myUser.getRol()){
+            rolName = rol.getName();
+        }
+        return rolName;
     }
 
     @Override
