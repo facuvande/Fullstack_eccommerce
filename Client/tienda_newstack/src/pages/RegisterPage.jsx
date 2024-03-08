@@ -7,15 +7,14 @@ import password_icon from '../assets/password.png'
 import './RegisterPage.css'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { registerRequest } from '../api/auth'
+import { useAuth } from '../context/AuthContext'
 
 export const RegisterPage = () => {
     const { register, handleSubmit } = useForm();
+    const { register: signup, user } = useAuth();
 
     const onSubmit = handleSubmit( async (values) => {
-        console.log(values);
-        const response = await registerRequest(values);
-        console.log(response);
+        signup(values);
     })
 
     return (
