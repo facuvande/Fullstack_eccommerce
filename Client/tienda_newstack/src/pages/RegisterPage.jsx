@@ -13,6 +13,8 @@ export const RegisterPage = () => {
     const { register, handleSubmit } = useForm();
     const { register: signup, user } = useAuth();
 
+    console.log(user)
+
     const onSubmit = handleSubmit( async (values) => {
         signup(values);
     })
