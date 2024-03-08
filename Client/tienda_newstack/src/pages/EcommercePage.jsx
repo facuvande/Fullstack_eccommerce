@@ -4,7 +4,7 @@ import { Hero } from '../components/Hero'
 import { Products } from '../components/Products'
 import { useEffect } from 'react'
 
-export const TiendaPage = () => {
+export const EcommercePage = () => {
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('userData'));
