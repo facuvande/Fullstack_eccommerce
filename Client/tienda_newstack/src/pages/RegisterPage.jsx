@@ -12,7 +12,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export const RegisterPage = () => {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const { register: signup, isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
@@ -35,18 +35,22 @@ export const RegisterPage = () => {
                     <div className='input'>
                         <img src={user_icon} alt=''/>
                         <input type='text' placeholder='Nombre' {...register("name", { required: true })}/>
+                        { errors.name && <span className="error">Este campo es requerido</span> }
                     </div>
                     <div className='input'>
                         <img src={user_icon} alt=''/>
                         <input type='text' placeholder='Apellido' {...register("lastname", { required: true })}/>
+                        { errors.lastname && <span className="error">Este campo es requerido</span> }
                     </div>
                     <div className='input'>
                         <img src={email_icon} alt=''/>
                         <input type='email' placeholder='Email' {...register("email", { required: true })}/>
+                        { errors.email && <span className="error">Este campo es requerido</span> }
                     </div>
                     <div className='input'>
                         <img src={password_icon} alt=''/>
                         <input type='password' placeholder='Password' {...register("password", { required: true })}/>
+                        { errors.password && <span className="error">Este campo es requerido</span>}
                     </div>
                 </div>
                 <div className="login-redirect">Ya tienes cuenta? <Link to="/auth/login">Logeate!</Link></div>
