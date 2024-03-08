@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom'
 
 export const RegisterPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { register: signup, isAuthenticated } = useAuth();
+    const { register: signup, isAuthenticated, errors: RegisterErrors } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -54,6 +54,7 @@ export const RegisterPage = () => {
                     </div>
                 </div>
                 <div className="login-redirect">Ya tienes cuenta? <Link to="/auth/login">Logeate!</Link></div>
+                { RegisterErrors && <div className="error" style={{textAlign: 'center'}}>{RegisterErrors}</div>}
                 <div className="submit-container">
                     <button type='submit' className="submit">Continuar</button>
                 </div>
