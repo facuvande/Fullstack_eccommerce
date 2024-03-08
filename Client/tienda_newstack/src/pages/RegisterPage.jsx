@@ -10,46 +10,17 @@ import { useForm } from 'react-hook-form'
 import { registerRequest } from '../api/auth'
 
 export const RegisterPage = () => {
-
     const { register, handleSubmit } = useForm();
 
-    // const [name, setName] = useState('')
-    // const [lastname, setLastname] = useState('')
-    // const [email, setEmail] = useState('')
-    // const [password, setPassword] = useState('')
-
-    // const handleSubmit = async(e) => {
-    //     e.preventDefault();
-
-    //     try {
-    //         const response = await fetch('http://localhost:8082/users/auth/register', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 name,
-    //                 lastname,
-    //                 email,
-    //                 password,
-    //             })
-    //         })
-
-    //         const data = await response.json();
-    //         console.log(data.message);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    const onSubmit = handleSubmit( async (values) => {
+        console.log(values);
+        const response = await registerRequest(values);
+        console.log(response);
+    })
 
     return (
         <div className='container'>
-            <form onSubmit={handleSubmit( async (values) => {
-                    console.log(values);
-                    const response = await registerRequest(values);
-                    console.log(response);
-                })}
-            >
+            <form onSubmit={onSubmit}>
                 <div className='header'>
                     <div className="text">Crear una cuenta</div>
                     <div className='underline'></div>
