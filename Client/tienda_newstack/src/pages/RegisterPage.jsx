@@ -5,9 +5,9 @@ import email_icon from '../assets/email.png'
 import password_icon from '../assets/password.png'
 
 import './RegisterPage.css'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { registerRequest } from '../api/auth'
 
 export const RegisterPage = () => {
 
@@ -44,7 +44,12 @@ export const RegisterPage = () => {
 
     return (
         <div className='container'>
-            <form onSubmit={handleSubmit( values => console.log(values))}>
+            <form onSubmit={handleSubmit( async (values) => {
+                    console.log(values);
+                    const response = await registerRequest(values);
+                    console.log(response);
+                })}
+            >
                 <div className='header'>
                     <div className="text">Crear una cuenta</div>
                     <div className='underline'></div>
