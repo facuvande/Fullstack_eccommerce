@@ -5,6 +5,7 @@ import com.usersservice.model.User;
 import com.usersservice.repository.IRolRepository;
 import com.usersservice.security.JwtTokenGenerator;
 import com.usersservice.service.IUserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,8 @@ public class UserController {
 
     // AUTH
     @PostMapping("/auth/register")
-    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO){
-        return userService.createUser(userDTO);
+    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO, HttpServletResponse response){
+        return userService.createUser(userDTO, response);
     }
 
     @PostMapping("/auth/login")

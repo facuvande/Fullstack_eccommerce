@@ -5,6 +5,7 @@ import com.usersservice.dto.LoginDTO;
 import com.usersservice.dto.UserDTO;
 import com.usersservice.dto.UserResponseDTO;
 import com.usersservice.model.User;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public interface IUserService {
 
     // Metodo para crear usuario (Register)
-    public ResponseEntity<?> createUser(UserDTO userDTO);
+    public ResponseEntity<?> createUser(UserDTO userDTO, HttpServletResponse response);
 
     //Metodo para Logear un usuario retornando un token
     public ResponseEntity<AuthResponseDTO> login(LoginDTO loginDTO);

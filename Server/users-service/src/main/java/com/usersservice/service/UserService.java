@@ -9,6 +9,8 @@ import com.usersservice.model.User;
 import com.usersservice.repository.IRolRepository;
 import com.usersservice.repository.IUserRepository;
 import com.usersservice.security.JwtTokenGenerator;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +44,7 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public ResponseEntity<?> createUser(UserDTO userDTO) {
+    public ResponseEntity<?> createUser(UserDTO userDTO, HttpServletResponse response) {
 
         // Verificar si existe el usuario con ese email
         if(this.existsByEmail(userDTO.getEmail())){
@@ -60,7 +62,29 @@ public class UserService implements IUserService{
         user.setId_cart(3L);
         userRepository.save(user);
 
-        return new ResponseEntity<>(Map.of("message", "Registro de usuario exitoso"), HttpStatus.OK);
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId_cart(user.getId_cart());
+        userResponseDTO.setEmail(user.getEmail());
+        userResponseDTO.setName(user.getName());
+        userResponseDTO.setRol(user.getRol());
+        userResponseDTO.setLastname(user.getLastname());
+
+        // Generar Token JWT
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtTokenGenerator.generateToken(authentication);
+
+        // Crear cookie con token jwt
+        Cookie cookie = new Cookie("token", token);
+        cookie.setMaxAge(24*60*60);
+        cookie.setPath("/");
+
+        System.out.println(cookie.getName());
+
+        response.addCookie(cookie);
+
+
+        return new ResponseEntity<>(Map.of("message", "Registro de usuario exitoso", "info", userResponseDTO), HttpStatus.OK);
     }
 
     @Override
