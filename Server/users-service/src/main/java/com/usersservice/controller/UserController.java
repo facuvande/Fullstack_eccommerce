@@ -28,8 +28,8 @@ public class UserController {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO){
-        return userService.login(loginDTO);
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response){
+        return userService.login(loginDTO, response);
     }
 
     @PostMapping("/auth/validateToken")

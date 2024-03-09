@@ -1,13 +1,11 @@
 package com.usersservice.service;
 
-import com.usersservice.dto.AuthResponseDTO;
 import com.usersservice.dto.LoginDTO;
 import com.usersservice.dto.UserDTO;
 import com.usersservice.dto.UserResponseDTO;
 import com.usersservice.model.User;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -17,7 +15,7 @@ public interface IUserService {
     public ResponseEntity<?> createUser(UserDTO userDTO, HttpServletResponse response);
 
     //Metodo para Logear un usuario retornando un token
-    public ResponseEntity<AuthResponseDTO> login(LoginDTO loginDTO);
+    public ResponseEntity<?> login(LoginDTO loginDTO, HttpServletResponse response);
 
     // Metodo para validar token jwt
     public Boolean validateToken(String token);

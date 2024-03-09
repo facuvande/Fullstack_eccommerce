@@ -1,6 +1,5 @@
 package com.usersservice.service;
 
-import com.usersservice.dto.AuthResponseDTO;
 import com.usersservice.dto.LoginDTO;
 import com.usersservice.dto.UserDTO;
 import com.usersservice.dto.UserResponseDTO;
@@ -88,16 +87,30 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public ResponseEntity<AuthResponseDTO> login(LoginDTO loginDTO) {
+    public ResponseEntity<?> login(LoginDTO loginDTO, HttpServletResponse response) {
         // Validamos informacion y seteamos el usuario en el contexto de la app
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
 
         // Traemos usuario por email
         User user = this.getUserByEmail(loginDTO.getEmail());
 
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId_cart(user.getId_cart());
+        userResponseDTO.setEmail(user.getEmail());
+        userResponseDTO.setName(user.getName());
+        userResponseDTO.setRol(user.getRol());
+        userResponseDTO.setLastname(user.getLastname());
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtTokenGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDTO(token, user.getName(), user.getLastname(), user.getEmail()), HttpStatus.OK);
+
+        // Crear cookie con token jwt
+        Cookie cookie = new Cookie("token", token);
+        cookie.setMaxAge(24*60*60);
+        cookie.setPath("/");
+
+        response.addCookie(cookie);
+        return new ResponseEntity<>(Map.of("message", "Logeo de usuario exitoso", "info", userResponseDTO), HttpStatus.OK);
     }
 
     @Override

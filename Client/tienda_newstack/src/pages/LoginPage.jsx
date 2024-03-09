@@ -8,40 +8,13 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { useAuth } from '../context/AuthContext'
 
 export const LoginPage = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const { login, errors: LoginErrors } = useAuth();
 
-    // const handleSubmit = async(e) => {
-    //     e.preventDefault();
-
-    //     try {
-    //         const response = await fetch('http://localhost:8082/users/auth/login', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 email,
-    //                 password,
-    //             })
-    //         })
-
-    //         const data = await response.json();
-    //         console.log(data)
-            
-    //         if(data.accessToken){
-    //             localStorage.clear();
-    //             // Guardar datos en localStorage
-    //             localStorage.setItem('userData', JSON.stringify(data.accessToken));
-    //             window.location.href = '/';
-    //         }
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 
     // useEffect(() => {
     //     const token = JSON.parse(localStorage.getItem('userData'));
@@ -72,7 +45,7 @@ export const LoginPage = () => {
 
 
     const onSubmit = handleSubmit(data => {
-        console.log(data);
+        login(data);
     })
 
     return (
@@ -91,10 +64,12 @@ export const LoginPage = () => {
                     <div className='input'>
                         <img src={password_icon} alt=''/>
                         <input type='password' placeholder='Password' {...register ("password", { required: true })}/>
+                        { errors.password && <span className="error">Este campo es requerido</span> }
                     </div>
                 </div>
                 <div className="login-redirect">Olvidaste tu contraseña? <Link to="/login">Click aqui!</Link></div>
                 <div className="login-redirect">No tienes cuenta? <Link to="/auth/register">Registrate</Link></div>
+                { LoginErrors && <div className="error" style={{textAlign: 'center'}}>{LoginErrors}</div>}
                 <div className="submit-container">
                     <button type='submit' className="submit">Continuar</button>
                 </div>

@@ -1,5 +1,5 @@
 import { createContext, useState, useContext } from "react";
-import { registerRequest } from "../api/auth";
+import { loginRequest, registerRequest } from "../api/auth";
 
 export const AuthContext = createContext();
 
@@ -20,18 +20,28 @@ export const AuthProvider = ({children}) => {
     const register = async (user) => {
         try {
             const response = await registerRequest(user);
-            console.log(document.cookie);
-            console.log(response.data.info);
             setUser(response.data.info);
             setIsAuthenticated(true);
         } catch (error) {
             setErrors(error.response.data.message)
+        }
+    };
+
+    const login = async ( user ) => {
+        try {
+            const res = await loginRequest(user);
+            console.log(res);
+        } catch (error) {
+            if(error.response.status == 401){
+                setErrors("Usuario o contraseña incorrectos");
+            }
         }
     }
 
     return (
         <AuthContext.Provider value={{
             register,
+            login,
             user,
             isAuthenticated,
             errors
