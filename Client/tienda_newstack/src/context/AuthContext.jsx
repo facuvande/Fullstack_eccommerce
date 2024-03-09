@@ -1,5 +1,6 @@
 import { createContext, useState, useContext } from "react";
 import { loginRequest, registerRequest } from "../api/auth";
+import { useEffect } from "react";
 
 export const AuthContext = createContext();
 
@@ -37,6 +38,18 @@ export const AuthProvider = ({children}) => {
             }
         }
     }
+
+    // Para borrar el mensaje de error pasado un tiempo
+    useEffect(() => {
+        if( errors ){
+            const timer = setTimeout(() => {
+                setErrors(null);
+            }, 5000)
+            // Para quitar el timer si el componente se desmonta
+            return () => clearTimeout(timer);
+        }
+    }, [errors])
+    
 
     return (
         <AuthContext.Provider value={{

@@ -4,9 +4,7 @@ import email_icon from '../assets/email.png'
 import password_icon from '../assets/password.png'
 
 import './LoginPage.css'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../context/AuthContext'
 
