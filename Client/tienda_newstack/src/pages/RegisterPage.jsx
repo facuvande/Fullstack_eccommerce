@@ -53,7 +53,7 @@ export const RegisterPage = () => {
                         { errors.password && <span className="error">Este campo es requerido</span>}
                     </div>
                 </div>
-                <div className="login-redirect">Ya tienes cuenta? <Link to="/auth/login">Logeate!</Link></div>
+                <div className="login-redirect">Ya tienes cuenta? <Link to="/login">Logeate!</Link></div>
                 { RegisterErrors && <div className="error" style={{textAlign: 'center'}}>{RegisterErrors}</div>}
                 <div className="submit-container">
                     <button type='submit' className="submit">Continuar</button>

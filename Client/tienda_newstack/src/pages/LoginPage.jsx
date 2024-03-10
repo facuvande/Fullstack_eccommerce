@@ -7,40 +7,16 @@ import './LoginPage.css'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../context/AuthContext'
+import { Navigate } from 'react-router-dom'
 
 export const LoginPage = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { login, errors: LoginErrors } = useAuth();
+    const { user } = useAuth();
 
-
-    // useEffect(() => {
-    //     const token = JSON.parse(localStorage.getItem('userData'));
-
-    //     if(token){
-    //         fetch('http://localhost:8082/users/auth/validateToken', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Bearer ${token}`
-    //         }
-    //     })
-    //         .then(response => {
-    //             if(response.ok){
-    //                 window.location.href = '/';
-    //             }else{
-    //                 localStorage.clear();
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         })
-    //     }else{
-    //         console.log("no hay token disponible");
-    //     }
-
-    // }, [])
-
+    console.log(user)
+    if(user) return <Navigate to="/" replace/>
 
     const onSubmit = handleSubmit(data => {
         login(data);
@@ -66,7 +42,7 @@ export const LoginPage = () => {
                     </div>
                 </div>
                 <div className="login-redirect">Olvidaste tu contraseña? <Link to="/login">Click aqui!</Link></div>
-                <div className="login-redirect">No tienes cuenta? <Link to="/auth/register">Registrate</Link></div>
+                <div className="login-redirect">No tienes cuenta? <Link to="/register">Registrate</Link></div>
                 { LoginErrors && <div className="error" style={{textAlign: 'center'}}>{LoginErrors}</div>}
                 <div className="submit-container">
                     <button type='submit' className="submit">Continuar</button>

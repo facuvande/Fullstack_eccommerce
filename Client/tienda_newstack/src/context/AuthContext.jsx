@@ -1,6 +1,8 @@
 import { createContext, useState, useContext } from "react";
-import { loginRequest, registerRequest } from "../api/auth";
+import { loginRequest, registerRequest, verifyTokenRequest } from "../api/auth";
 import { useEffect } from "react";
+import Cookies from 'js-cookie';
+import { set } from "react-hook-form";
 
 export const AuthContext = createContext();
 
@@ -17,6 +19,7 @@ export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [errors, setErrors] = useState(null);
+    const [ loading, setLoading ] = useState(true);
 
     const register = async (user) => {
         try {
@@ -32,7 +35,10 @@ export const AuthProvider = ({children}) => {
         try {
             const res = await loginRequest(user);
             console.log(res);
+            setUser(res.data.info);
+            setIsAuthenticated(true);
         } catch (error) {
+            console.log(error)
             if(error.response.status == 401){
                 setErrors("Usuario o contraseña incorrectos");
             }
@@ -50,11 +56,41 @@ export const AuthProvider = ({children}) => {
         }
     }, [errors])
     
+    useEffect(() => {
+        async function checkLogin (){
+            const cookies = Cookies.get()
+            if(!cookies.token){
+                setIsAuthenticated(false);
+                setUser(null);
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const res = await verifyTokenRequest(cookies.token);
+                if(!res.data){
+                    setIsAuthenticated(false);
+                    setLoading(false);
+                    return;
+                }
+                setIsAuthenticated(true);
+                setUser(res.data);
+                setLoading(false);
+            } catch (error) {
+                setIsAuthenticated(false);
+                setUser(null);
+                setLoading(false);
+            }
+            
+        }
+        checkLogin();
+    }, [])
 
     return (
         <AuthContext.Provider value={{
             register,
             login,
+            loading,
             user,
             isAuthenticated,
             errors
