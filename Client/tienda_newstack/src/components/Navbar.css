@@ -10,15 +10,20 @@ li {
 
 .navbar {
     display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
     justify-content: space-around;
     align-items: center;
     margin-bottom: 50px;
+    background-color: #0f1214;
     height: 10vh;
     box-shadow: rgba(50, 50, 93, 0.23) 0px 30px 30px -20px;
 }
 
 .logo {
     font-size: 30px;
+    color: #fff;
 }
 .nav-links {
     display: flex;
@@ -27,7 +32,7 @@ li {
 }
 
 .nav-links li {
-    color: black;
+    color: #fff;
     font-size: 20px;
     padding: 10px 20px;
     margin: 0 10px;
@@ -58,7 +63,7 @@ li {
     transition: 0.3s ease-in-out;
 }
 .profile svg{
-    color: black;
+    color: #fff;
     font-size: 25px;
 }
 
