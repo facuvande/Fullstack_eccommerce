@@ -6,6 +6,7 @@ import { useState } from 'react'
 import "./Navbar.css"
 import { useAuth } from '../context/AuthContext'
 import { FaRegUserCircle } from "react-icons/fa";
+import { FaOpencart } from "react-icons/fa";
 
 export const Navbar = () => {
 
@@ -21,7 +22,7 @@ export const Navbar = () => {
     return (
         <>
             <nav className='navbar'>
-                <h3 className='logo'>Ecommerce</h3>
+                <FaOpencart className='logo'/>
                 <ul className={Mobile ? "nav-links-mobile navbar-ul" : "nav-links navbar-ul"} onClick={() => setMobile(false)}>
                     <Link to='/skills' className='skills'>
                         <li>Productos</li>
