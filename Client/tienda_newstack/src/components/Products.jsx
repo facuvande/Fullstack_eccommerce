@@ -34,7 +34,7 @@ export const Products = () => {
                         <div key={product.id_product} className='product'>
                             <img src={product.img} alt={product.name}/>
                             <h3>{product.name}</h3>
-                            <Link to={`/products/${product.id_product}`}>Ver detalles</Link>
+                            <Link to={`/product-details/${product.id_product}`}>Ver detalles</Link>
                             <div className='actions'>
                                 <button>Agregar al carrito</button>
                                 <GoHeartFill className='addFavorite'/>
