@@ -10,6 +10,7 @@ import product_image from '../assets/iphone.png'
 import './ProductDetails.css'
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
+import { Footer } from '../components/Footer';
 
 export const ProductDetails = () => {
 
@@ -88,6 +89,7 @@ export const ProductDetails = () => {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </>
     )
 }

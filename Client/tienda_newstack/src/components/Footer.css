@@ -1,0 +1,35 @@
+.footer{
+    margin-top: 50px;
+    background-color: #0f1214;
+    color: #fff;
+    padding: 20px;
+}
+
+.footer-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.footer-left p{
+    font-size: 20px;
+}
+.footer-left a{
+    text-decoration: underline;
+    color: #fff;
+    font-size: 20px;
+}
+
+
+.footer-right{
+    display: flex;
+    gap: 10px;
+}
+
+.footer-right a{
+    color: #fff;
+    text-decoration: none;
+}
+.footer-icon{
+    font-size: 30px;
+}
