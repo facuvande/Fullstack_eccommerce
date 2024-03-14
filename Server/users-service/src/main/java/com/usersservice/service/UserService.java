@@ -161,6 +161,17 @@ public class UserService implements IUserService{
     }
 
     @Override
+    public User editUserByEmail(String email, UserDTO newUserData) {
+        User userToEdit = userRepository.findByEmail(email).orElse(null);
+        if(userToEdit == null) return null;
+
+        userToEdit.setName(newUserData.getName());
+        userToEdit.setLastname(newUserData.getLastname());
+
+        return userRepository.save(userToEdit);
+    }
+
+    @Override
     public void deleteUserById(Long id_user) {
         userRepository.deleteById(id_user);
     }

@@ -9,6 +9,15 @@ const instance = axios.create({
 
 export const registerRequest = user => instance.post(`/auth/register`, user)
 export const loginRequest = user => instance.post(`/auth/login`, user)
+export const editProfileRequest = (newData, token) => {
+    if(token){
+        return instance.put(`/api/editUser`, newData, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+    }
+}
 export const verifyTokenRequest = token => {
     if(token){
         return instance.post(`/auth/validateToken`, null, {

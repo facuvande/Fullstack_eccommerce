@@ -3,6 +3,7 @@ package com.usersservice.controller;
 import com.usersservice.dto.*;
 import com.usersservice.model.User;
 import com.usersservice.service.IUserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -66,6 +67,27 @@ public class UserController {
     public ResponseEntity<?> deleteUserById(@PathVariable Long id_user){
         userService.deleteUserById(id_user);
         return new ResponseEntity<>("User deleted", HttpStatus.OK);
+    }
+
+    @PutMapping("/api/editUser")
+    public ResponseEntity<?> editUserByEmail(@RequestBody UserDTO newUserData, @RequestHeader("Authorization") String authorizationHeader){
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+            String token = authorizationHeader.substring(7);
+            boolean isValidToken = userService.validateToken(token);
+            if(isValidToken){
+                User user = userService.editUserByEmail(newUserData.getEmail(), newUserData);
+                if(user == null){
+                    return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+                }else{
+                    return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail(), user.getRol()), HttpStatus.OK);
+                }
+            }else{
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null), HttpStatus.BAD_REQUEST);
+            }
+        }else{
+            return new ResponseEntity<>("Not authenticated", HttpStatus.UNAUTHORIZED);
+        }
+
     }
 
 }

@@ -35,6 +35,9 @@ public interface IUserService {
     // Metodo para traer un usuario por email
     public User getUserByEmail(String email);
 
+    // Metodo para editar un usuario
+    public User editUserByEmail(String email, UserDTO newUserData);
+
     // Metodo para eliminar un usuario
     public void deleteUserById(Long id_user);
 
