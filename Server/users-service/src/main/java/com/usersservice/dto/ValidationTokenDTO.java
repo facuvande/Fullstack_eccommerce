@@ -13,7 +13,7 @@ import java.util.List;
 public class ValidationTokenDTO {
     private boolean validationStatus;
     private String name;
-    private String lastName;
+    private String lastname;
     private String email;
     private List<Role> rol;
 }

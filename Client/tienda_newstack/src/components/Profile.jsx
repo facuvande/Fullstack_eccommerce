@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { ProfileUser } from './ProfileUser'
 import { useState } from 'react'
 import { FooterNav } from './FooterNav'
+import Cookies from 'js-cookie';
 
 export const Profile = () => {
 
@@ -13,6 +14,12 @@ export const Profile = () => {
     if(!user) return <h1>Cargando</h1>
 
     const changeSeccion = (seccion) => {
+
+        if(seccion === 'close-session'){
+            Cookies.remove('token')
+            window.location.reload()
+        }
+
         setShowSeccion(seccion)
     }
 

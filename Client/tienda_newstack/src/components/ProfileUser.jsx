@@ -10,12 +10,12 @@ export const ProfileUser = ({user}) => {
         defaultValues: {
             email: user.email,
             name: user.name,
-            lastname: user.lastName
+            lastname: user.lastname
         }
     });
 
     const onSubmit = handleSubmit( async (values) => {
-        if(values.email === user.email && values.name === user.name && values.lastname === user.lastName){
+        if(values.email === user.email && values.name === user.name && values.lastname === user.lastname){
             console.log('No se realizaron cambios')
         }else{
             const cookies = Cookies.get()
