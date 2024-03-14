@@ -7,6 +7,7 @@ import { useAuth } from '../context/AuthContext'
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaOpencart } from "react-icons/fa";
 import logoUser from '../assets/person.png'
+import { Navigate } from 'react-router-dom'
 
 export const Navbar = () => {
 
@@ -49,13 +50,13 @@ export const Navbar = () => {
                     {
                         Links.map((link) => (
                             <li key={link.name} className='md:ml-8 text-xl md:my-0 my-7'>
-                                <a href={link.link} className='text-black md:text-white opacity-98 hover:text-gray-400 duration-500'>{link.name}</a>
+                                <Link to={link.link} className='text-black md:text-white opacity-98 hover:text-gray-400 duration-500'>{link.name}</Link>
                             </li>
                         ))
                     }
-                    <button className='bg-indigo-600 text-white py-2 px-6 rounded md:ml-8 hover:bg-indigo-400 duration-500'>
+                    <Link to='/login' className='bg-indigo-600 text-white py-2 px-6 rounded md:ml-8 hover:bg-indigo-400 duration-500'>
                         Iniciar sesion
-                    </button>
+                    </Link>
                 </ul>
             </div>
         </nav>
