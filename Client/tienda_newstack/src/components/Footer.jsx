@@ -7,7 +7,6 @@ import './Footer.css'
 export const Footer = () => {
     return (
         <div className="footer">
-            <h1 className='opacity-70'>Hellou</h1>
             <div className="footer-container">
                 <div className="footer-left">
                     <p>© Creado por <Link to="https://www.linkedin.com/in/facundo-vandecaveye-b4726319b/" target='_blank'>Facundo Vandecaveye</Link></p>
