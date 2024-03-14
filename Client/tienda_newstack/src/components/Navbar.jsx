@@ -32,7 +32,7 @@ export const Navbar = () => {
     ]
 
     return (
-        <nav className='shadow-md w-full fixed top-0 left-0 '>
+        <nav className='shadow-md w-full fixed top-0 left-0'>
             <div className='md:flex items-center justify-around bg-slate-950 py-4 md:px-10 px-7'>
                 <div className='text-3xl font-bold cursor-pointer flex items-center text-white'>
                     Ecommerce
@@ -54,9 +54,13 @@ export const Navbar = () => {
                             </li>
                         ))
                     }
-                    <Link to='/login' className='bg-indigo-600 text-white py-2 px-6 rounded md:ml-8 hover:bg-indigo-400 duration-500'>
-                        Iniciar sesion
-                    </Link>
+                    {
+                        user 
+                            ?   <Link to='/profile' className='bg-blue-700 text-white py-2 px-6 rounded md:ml-8 hover:bg-blue-500 duration-500'><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  strokeWidth="2"  strokeLinecap="round"  strokeLinejoin="round"  ><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg></Link>
+                            :   <Link to='/login' className='bg-blue-700 text-white py-2 px-6 rounded md:ml-8 hover:bg-blue-500 duration-500'>
+                                    Iniciar sesion
+                                </Link>
+                    }
                 </ul>
             </div>
         </nav>

@@ -7,8 +7,10 @@ import { LoginPage } from '../pages/LoginPage';
 import { Route } from 'react-router-dom';
 import { ProtectedRoute } from '../ProtectedRoute';
 import { ProductDetails } from '../pages/ProductDetails';
+import { Profile } from '../components/Profile';
 
 export const AppRouter = () => {
+    
 
     return (
         <Routes>
@@ -19,7 +21,7 @@ export const AppRouter = () => {
             
             <Route element={<ProtectedRoute/>}>
                 <Route path='/cart' element={<div>Carrito</div>}/>
-                <Route path='/profile' element={<div>Perfil</div>}/>
+                <Route path='/profile' element={<Profile/>}/>
             </Route>
 
         </Routes>
