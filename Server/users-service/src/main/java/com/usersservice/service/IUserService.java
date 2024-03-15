@@ -11,38 +11,18 @@ import java.util.List;
 
 public interface IUserService {
 
-    // Metodo para crear usuario (Register)
     public ResponseEntity<?> createUser(UserDTO userDTO, HttpServletResponse response);
-
-    //Metodo para Logear un usuario retornando un token
     public ResponseEntity<?> login(LoginDTO loginDTO, HttpServletResponse response);
-
-    // Metodo para validar token jwt
     public Boolean validateToken(String token);
-
-    // Metodo para traer username (email) por token
     public String getUsernameByToken(String token);
-
-    // Metodo para traer el rol a traves de un email
     public String getRoleByEmail(String email);
-
-    // Metodo para traer todos los usuarios
     public List<UserResponseDTO> getUsers();
-
-    // Metodo para traer un usuario por id
     public UserResponseDTO getUserById(Long id_user);
-
-    // Metodo para traer un usuario por email
     public User getUserByEmail(String email);
-
-    // Metodo para editar un usuario
     public User editUserByEmail(String email, UserDTO newUserData);
-
-    // Metodo para eliminar un usuario
     public void deleteUserById(Long id_user);
-
-    // Metodo para ver si existe un usuario por email
-    Boolean existsByEmail(String email);
+    public Boolean existsByEmail(String email);
+    public ResponseEntity<?> saveProductFavoriteByEmail(String email, Long id_product);
 
 
 }

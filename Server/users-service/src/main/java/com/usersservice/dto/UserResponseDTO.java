@@ -16,5 +16,6 @@ public class UserResponseDTO {
     private String lastname;
     private String email;
     private List<Role> rol = new ArrayList<>();
+    private List<Long> favorite_product_ids;
     private Long id_cart;
 }

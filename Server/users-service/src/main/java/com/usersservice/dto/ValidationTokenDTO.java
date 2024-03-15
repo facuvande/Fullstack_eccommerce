@@ -16,4 +16,5 @@ public class ValidationTokenDTO {
     private String lastname;
     private String email;
     private List<Role> rol;
+    private List<Long> favorite_product_ids;
 }

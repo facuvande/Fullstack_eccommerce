@@ -20,6 +20,10 @@ public class User {
     private String lastname;
     private String email;
     private String password;
+    @ElementCollection
+    @CollectionTable(name = "user_favorites", joinColumns = @JoinColumn(name = "id_user"))
+    @Column(name = "id_product")
+    private List<Long> favorite_product_ids;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id_user")
     , inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id_role"))

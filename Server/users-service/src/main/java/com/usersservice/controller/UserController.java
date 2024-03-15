@@ -5,6 +5,7 @@ import com.usersservice.model.User;
 import com.usersservice.service.IUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.POST;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,9 +37,9 @@ public class UserController {
             boolean isValidToken = userService.validateToken(token);
             if(isValidToken){
                 User user = userService.getUserByEmail(userService.getUsernameByToken(token));
-                return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail(), user.getRol()), HttpStatus.OK);
+                return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail(), user.getRol(), user.getFavorite_product_ids()), HttpStatus.OK);
             }else{
-                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null), HttpStatus.BAD_REQUEST);
             }
         }
         return new ResponseEntity<>(HttpStatus.OK);
@@ -79,10 +80,10 @@ public class UserController {
                 if(user == null){
                     return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
                 }else{
-                    return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail(), user.getRol()), HttpStatus.OK);
+                    return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail(), user.getRol(), user.getFavorite_product_ids()), HttpStatus.OK);
                 }
             }else{
-                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null), HttpStatus.BAD_REQUEST);
             }
         }else{
             return new ResponseEntity<>("Not authenticated", HttpStatus.UNAUTHORIZED);
@@ -90,4 +91,26 @@ public class UserController {
 
     }
 
+    @PostMapping("/api/addFavorite/{id_product}")
+    public ResponseEntity<?> saveProductFavoriteByEmail(@PathVariable Long id_product, @RequestHeader("Authorization") String authorizationHeader){
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+            String token = authorizationHeader.substring(7);
+            boolean isValidToken = userService.validateToken(token);
+            if(isValidToken){
+                String email_user = userService.getUsernameByToken(token);
+                User user = userService.getUserByEmail(email_user);
+
+                if(user == null){
+                    return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+                }else{
+                    return userService.saveProductFavoriteByEmail(email_user, id_product);
+                }
+            }else{
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null), HttpStatus.BAD_REQUEST);
+            }
+        }else{
+            return new ResponseEntity<>("Not authenticated", HttpStatus.UNAUTHORIZED);
+        }
+
+    }
 }
