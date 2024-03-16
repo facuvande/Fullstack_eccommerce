@@ -5,36 +5,40 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getProductByIdRequest } from '../api/product';
 import { GoHeartFill } from "react-icons/go";
+import { FaHeartCrack } from "react-icons/fa6";
 import { Navbar } from '../components/Navbar';
 import product_image from '../assets/iphone.png'
 import './ProductDetails.css'
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { Footer } from '../components/Footer';
+import { saveProductFavorite } from '../api/userApi';
+import Cookies from 'js-cookie';
 
 export const ProductDetails = () => {
 
     const { id, value } = useParams();
     const [ product, setProduct ] = useState(null);
     const [ quantity, setQuantity ] = useState(1);
+    const [ isProductFavorite, setIsProductFavorite ] = useState(false);
     const { user } = useAuth();
-
+    
     useEffect(() => {
         getProductByIdRequest(id)
         .then(response => {
             setProduct(response.data);
         })
     }, [])
-
+    
     const decrementQuantity = () => {
         if(quantity > 1) return setQuantity(quantity - 1)
     }
 
-    const incrementQuantity = () => {
-        if(quantity <= product.stock ) setQuantity(quantity + 1)
-    }
+const incrementQuantity = () => {
+    if(quantity <= product.stock ) setQuantity(quantity + 1)
+}
 
-    const addProductToCart = () => {
+const addProductToCart = () => {
         if(!user){
             Swal.fire({
                 position: "center",
@@ -57,6 +61,16 @@ export const ProductDetails = () => {
             });
         }
     }
+
+    const addProductToFavorite = () => {
+        saveProductFavorite(id, Cookies.get('token'))
+    }
+
+    useEffect(() => {
+        user?.favorite_product_ids.forEach(id_favorite => {
+            if(id_favorite == id) setIsProductFavorite(true)
+        });
+    }, [])
 
     return (
         <>
@@ -82,7 +96,11 @@ export const ProductDetails = () => {
                             </div>
                             <div className='buttons'>
                                 <button className='add-to-cart' onClick={addProductToCart}>Agregar al carrito</button>
-                                <GoHeartFill className='addFavorite'/>
+                                
+                                {
+                                    isProductFavorite ? <GoHeartFill className='addFavorite' onClick={addProductToFavorite}/>  : <FaHeartCrack className='addFavorite' style={{color: 'red'}} onClick={addProductToFavorite}/>
+                                }
+
                             </div>
                         </div>
 
