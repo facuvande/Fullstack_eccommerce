@@ -92,7 +92,7 @@ export const ProductDetails = () => {
     return (
         <>
             <Navbar/>
-            <h2 className='product-details-title'>Detalles del producto</h2>
+            <h2 className='product-details-title mt-20'>Detalles del producto</h2>
             <div className='product-details-container'>
                 <div className='product-details'>
                     <div className='product-details-left'>
@@ -102,7 +102,7 @@ export const ProductDetails = () => {
                         <div className='product-details-right_info'>
                             <h2 className='title'>Zapatillas DC super small</h2>
                             <h3 className='brand'>Marca: DC</h3>
-                            <h3 className='price'>${product?.price}</h3>
+                            <h3 className='text-blue-700 font-extrabold text-4xl'>${product?.price}</h3>
                             <h3 className='description'>Zapatillas marca DC super ergonomicas y bien configuradas, tienen unos cordones que son super reforzados, con una gran ligereza en su tamanio, y una breve plataforma que te permite tener mejor apoye y agarre en superficies duras y blandas</h3>
                         </div>
                         <div className="product-details-right_adds">
@@ -112,7 +112,7 @@ export const ProductDetails = () => {
                                 <span className='plus' onClick={incrementQuantity}>+</span>
                             </div>
                             <div className='buttons'>
-                                <button className='add-to-cart' onClick={addProductToCart}>Agregar al carrito</button>
+                                <button className='add-to-cart bg-blue-700 text-white py-2 px-6 rounded md:ml-8 hover:bg-blue-500 duration-500' onClick={addProductToCart}>Agregar al carrito</button>
                                 
                                 {
                                     isProductFavorite ? <FaHeartCrack className='addFavorite' style={{color: 'red'}} onClick={deleteProductToFavorite}/> : <GoHeartFill className='addFavorite' onClick={addProductToFavorite}/>
