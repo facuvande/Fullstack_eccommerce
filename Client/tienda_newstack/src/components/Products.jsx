@@ -27,7 +27,7 @@ export const Products = () => {
     
 
     return (
-        <>
+        <div>
             <h2 className='mt-80 mb-10 text-4xl font-extrabold tracking-tight leading-none text-center text-gray-900 md:text-5xl lg:text-6xl'>Productos</h2>
             <section className='max-w-[1000px] m-auto gap-6 grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 p-2'>
                 {
@@ -36,6 +36,6 @@ export const Products = () => {
                     ))
                 }
             </section>
-        </>
+        </div>
     )
 }

@@ -27,8 +27,6 @@ export const Navbar = () => {
     
     const Links = [
         {name: "Inicio", link: "/"},
-        {name: "Productos", link: "/products"},
-        {name: "Contacto", link: "/contact"},
     ]
 
     return (
