@@ -98,12 +98,40 @@ public class UserController {
             boolean isValidToken = userService.validateToken(token);
             if(isValidToken){
                 String email_user = userService.getUsernameByToken(token);
+                System.out.println(email_user);
                 User user = userService.getUserByEmail(email_user);
+                System.out.println(user.getName());
 
                 if(user == null){
                     return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
                 }else{
                     return userService.saveProductFavoriteByEmail(email_user, id_product);
+                }
+            }else{
+                System.out.println(isValidToken);
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null), HttpStatus.BAD_REQUEST);
+            }
+        }else{
+            return new ResponseEntity<>("Not authenticated", HttpStatus.UNAUTHORIZED);
+        }
+
+    }
+
+    @DeleteMapping("/api/deleteFavorite/{id_product}")
+    public ResponseEntity<?> deleteProductFavoriteByEmail(@PathVariable Long id_product, @RequestHeader("Authorization") String authorizationHeader){
+        System.out.println("llega");
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+            String token = authorizationHeader.substring(7);
+            System.out.println(token);
+            boolean isValidToken = userService.validateToken(token);
+            if(isValidToken){
+                String email_user = userService.getUsernameByToken(token);
+                User user = userService.getUserByEmail(email_user);
+
+                if(user == null){
+                    return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+                }else{
+                    return userService.deleteProductFavoriteByEmail(email_user, id_product);
                 }
             }else{
                 return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null), HttpStatus.BAD_REQUEST);

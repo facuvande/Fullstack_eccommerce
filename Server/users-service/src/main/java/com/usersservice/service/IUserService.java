@@ -23,6 +23,6 @@ public interface IUserService {
     public void deleteUserById(Long id_user);
     public Boolean existsByEmail(String email);
     public ResponseEntity<?> saveProductFavoriteByEmail(String email, Long id_product);
-
+    public ResponseEntity<?> deleteProductFavoriteByEmail(String email, Long id_product);
 
 }

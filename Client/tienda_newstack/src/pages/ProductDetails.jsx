@@ -12,65 +12,82 @@ import './ProductDetails.css'
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { Footer } from '../components/Footer';
-import { saveProductFavorite } from '../api/userApi';
+import { deleteProductFavorite, saveProductFavorite } from '../api/userApi';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 export const ProductDetails = () => {
 
-    const { id, value } = useParams();
+    const { id } = useParams();
     const [ product, setProduct ] = useState(null);
     const [ quantity, setQuantity ] = useState(1);
     const [ isProductFavorite, setIsProductFavorite ] = useState(false);
     const { user } = useAuth();
-    
+
     useEffect(() => {
-        getProductByIdRequest(id)
-        .then(response => {
+        const fetchData = async () => {
+            const response = await getProductByIdRequest(id);
             setProduct(response.data);
-        })
-    }, [])
+            setIsProductFavorite(user?.favorite_product_ids.includes(id));
+        }
+        fetchData();
+    }, [id, user])
     
     const decrementQuantity = () => {
         if(quantity > 1) return setQuantity(quantity - 1)
     }
 
-const incrementQuantity = () => {
-    if(quantity <= product.stock ) setQuantity(quantity + 1)
-}
+    const incrementQuantity = () => {
+        if(quantity <= product?.stock ) setQuantity(quantity + 1)
+    }
 
-const addProductToCart = () => {
-        if(!user){
-            Swal.fire({
-                position: "center",
-                icon: "error",
-                title: "Debes iniciar sesion para agregar productos al carrito",
-                showConfirmButton: false,
-                timer: 2000
-            })
-            const timer = setTimeout(() => {
-                window.location.href = '/login';
-            }, 2300)
-            return () => clearTimeout(timer)
+    const showAlert = (title, icon) => {
+        Swal.fire({
+            position: "center",
+            icon: icon,
+            title: title,
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+
+    const addProductToCart = () => {
+            if(!user){
+                showAlert('Debes iniciar sesion para agregar productos al carrito', 'error')
+                const timer = setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2300)
+                return () => clearTimeout(timer)
+            }else{
+                showAlert('Producto agregado correctamente', 'success')
+            }
+        }
+
+    const addProductToFavorite = async() => {
+        if(!user) {
+            showAlert('Debes iniciar sesion para agregar productos a favoritos', 'error')
         }else{
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Producto agregado correctamente",
-                showConfirmButton: false,
-                timer: 1500
-            });
+            await saveProductFavorite(id, Cookies.get('token'))
+            setIsProductFavorite(true);
         }
     }
 
-    const addProductToFavorite = () => {
-        saveProductFavorite(id, Cookies.get('token'))
+    const deleteProductToFavorite = async() => {
+        if(!user) return
+        await deleteProductFavorite(id, Cookies.get('token'))
+        setIsProductFavorite(false);
     }
 
     useEffect(() => {
+        let found = false;
         user?.favorite_product_ids.forEach(id_favorite => {
-            if(id_favorite == id) setIsProductFavorite(true)
+            if(id_favorite == id){
+                found = true;
+            }
         });
-    }, [])
+        setIsProductFavorite(found);
+        console.log(isProductFavorite)
+    }, [user])
 
     return (
         <>
@@ -98,7 +115,7 @@ const addProductToCart = () => {
                                 <button className='add-to-cart' onClick={addProductToCart}>Agregar al carrito</button>
                                 
                                 {
-                                    isProductFavorite ? <GoHeartFill className='addFavorite' onClick={addProductToFavorite}/>  : <FaHeartCrack className='addFavorite' style={{color: 'red'}} onClick={addProductToFavorite}/>
+                                    isProductFavorite ? <FaHeartCrack className='addFavorite' style={{color: 'red'}} onClick={deleteProductToFavorite}/> : <GoHeartFill className='addFavorite' onClick={addProductToFavorite}/>
                                 }
 
                             </div>

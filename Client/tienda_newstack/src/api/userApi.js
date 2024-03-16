@@ -1,27 +1,36 @@
-import axios from "axios"
-
-// const API_USERS = 'http://localhost:8082/users'
-
-const instance = axios.create({
-    baseURL: 'http://localhost:8082/users',
-    withCredentials: true
-})
+const instance = 'http://localhost:8082/users';
 
 export const editProfileRequest = (newData, token) => {
-    if(token){
-        return instance.put(`/api/editUser`, newData, {
+    if (token) {
+        return fetch(`${instance}/api/editUser`, {
+            method: 'PUT',
             headers: {
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
-            }
-        })
+            },
+            body: JSON.stringify(newData)
+        });
     }
-}
+};
+
 export const saveProductFavorite = (id_product, token) => {
-    if(token){
-        return instance.post(`/api/addFavorite/${id_product}`, null, {
+    if (token) {
+        return fetch(`${instance}/api/addFavorite/${id_product}`, {
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
             }
-        })
+        });
     }
-}
+};
+
+export const deleteProductFavorite = (id_product, token) => {
+    if (token) {
+        return fetch(`${instance}/api/deleteFavorite/${id_product}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    }
+};

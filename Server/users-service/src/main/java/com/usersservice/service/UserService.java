@@ -208,4 +208,34 @@ public class UserService implements IUserService{
 
         return new ResponseEntity<>(Map.of("message", "Producto agregado correctamente a favoritos", "info", userResponseDTO), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<?> deleteProductFavoriteByEmail(String email, Long id_product) {
+        User user = userRepository.findByEmail(email).orElse(null);
+        if(user == null){
+            return new ResponseEntity<>(Map.of("message", "Usuario no encontrado"), HttpStatus.NOT_FOUND);
+        }
+
+        List<Long> listProductFavorites = user.getFavorite_product_ids();
+        for(int i = 0 ; i <= listProductFavorites.size(); i++){
+            Long id_prod = listProductFavorites.get(i);
+            if(id_prod.equals(id_product)){
+                listProductFavorites.remove(i);
+            }
+        }
+
+        user.setFavorite_product_ids(listProductFavorites);
+
+        userRepository.save(user);
+
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId_cart(user.getId_cart());
+        userResponseDTO.setEmail(user.getEmail());
+        userResponseDTO.setName(user.getName());
+        userResponseDTO.setRol(user.getRol());
+        userResponseDTO.setLastname(user.getLastname());
+        userResponseDTO.setFavorite_product_ids(user.getFavorite_product_ids());
+
+        return new ResponseEntity<>(Map.of("message", "Producto eliminado correctamente de favoritos", "info", userResponseDTO), HttpStatus.OK);
+    }
 }
