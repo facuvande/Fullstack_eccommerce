@@ -59,6 +59,13 @@ public class ProductController {
     }
 
     // USER OR ADMIN
+    @GetMapping("/productsFavorites")
+    public ResponseEntity<?> getFavoriteProductsIds(HttpServletRequest request){
+        String authorizationHeader = request.getHeader("Authorization");
+        return productService.getFavoriteProductsIds(authorizationHeader);
+    }
+
+    // USER OR ADMIN
     public ResponseEntity<?> decreaseStock(Long id_product, int quantity, HttpServletRequest request){
         if(!hasAdminUserRole(request)){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -67,6 +74,8 @@ public class ProductController {
         myProduct.setStock(myProduct.getStock() - quantity);
         return new ResponseEntity<>(productService.editProduct(myProduct), HttpStatus.OK);
     }
+
+
 
     private String extractTokenFromHeader(HttpServletRequest request){
         String authorizationHeader = request.getHeader("Authorization");
@@ -95,5 +104,6 @@ public class ProductController {
             return false;
         }
     }
+
 
 }

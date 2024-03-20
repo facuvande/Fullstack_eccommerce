@@ -141,4 +141,21 @@ public class UserController {
         }
 
     }
+
+    @GetMapping("/api/user/idProductsFavorites")
+    public ResponseEntity<List<Long>> getFavoriteProductsIds(@RequestHeader("Authorization") String authorizationHeader){
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+            String token = authorizationHeader.substring(7);
+            System.out.println(token);
+            boolean isValidToken = userService.validateToken(token);
+            if(isValidToken){
+                String email_user = userService.getUsernameByToken(token);
+                return userService.getFavoriteProductsIds(email_user);
+            }else{
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }else{
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+    }
 }

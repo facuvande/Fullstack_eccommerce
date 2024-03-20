@@ -4,9 +4,11 @@ import com.productsservice.model.Product;
 import com.productsservice.repository.IProductRepository;
 import com.productsservice.repository.IUserAPI;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -50,6 +52,23 @@ public class ProductService implements IProductService{
             return null;
         }else{
             return response.getBody();
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> getFavoriteProductsIds(String authorizationHeader) {
+        ResponseEntity<List<Long>> response = userAPI.getFavoriteProductsIds(authorizationHeader);
+        if(response.getStatusCode().is2xxSuccessful()){
+            List<Long> favoriteProductIds = response.getBody();
+            List<Product> productsFavorites = new ArrayList<>();
+            assert favoriteProductIds != null;
+            for(Long idProduct : favoriteProductIds){
+                Product product = this.getProductById(idProduct);
+                productsFavorites.add(product);
+            }
+            return new ResponseEntity<>(productsFavorites, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("Error internal", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

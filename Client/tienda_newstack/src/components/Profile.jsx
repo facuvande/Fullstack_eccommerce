@@ -5,6 +5,7 @@ import { ProfileUser } from './ProfileUser'
 import { useState } from 'react'
 import { FooterNav } from './FooterNav'
 import Cookies from 'js-cookie';
+import { FavoriteProducts } from './FavoriteProducts'
 
 export const Profile = () => {
 
@@ -31,7 +32,7 @@ export const Profile = () => {
                 showSeccion === 'profile' && <ProfileUser user={user}/> 
             }
             {
-                showSeccion === 'favorites' && <h1 className="mt-40">Asd</h1>
+                showSeccion === 'favorites' && <FavoriteProducts user={user} />
             }
 
             <FooterNav changeSeccion={changeSeccion}/>

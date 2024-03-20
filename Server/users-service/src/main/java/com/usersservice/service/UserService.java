@@ -238,4 +238,15 @@ public class UserService implements IUserService{
 
         return new ResponseEntity<>(Map.of("message", "Producto eliminado correctamente de favoritos", "info", userResponseDTO), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<List<Long>> getFavoriteProductsIds(String email) {
+        User user = userRepository.findByEmail(email).orElse(null);
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<Long> listProductFavorites = user.getFavorite_product_ids();
+        return new ResponseEntity<>(listProductFavorites, HttpStatus.OK);
+    }
 }

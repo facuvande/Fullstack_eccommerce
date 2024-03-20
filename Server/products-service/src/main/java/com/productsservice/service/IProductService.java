@@ -1,6 +1,8 @@
 package com.productsservice.service;
 
 import com.productsservice.model.Product;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -12,5 +14,6 @@ public interface IProductService {
     public Product editProduct(Product product);
     public void deleteProductById(Long id_product);
     public String getRoleByToken(String token);
+    public ResponseEntity<?> getFavoriteProductsIds(String authorizationHeader);
 
 }
