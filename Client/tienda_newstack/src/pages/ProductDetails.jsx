@@ -26,9 +26,10 @@ export const ProductDetails = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await getProductByIdRequest(id);
-            setProduct(response.data);
-            setIsProductFavorite(user?.favorite_product_ids.includes(id));
+            const response = await getProductByIdRequest(id).then(response => response.json()).then(data => {
+                setProduct(data)
+                setIsProductFavorite(isProductFavoriteByUser(user));
+            });
         }
         fetchData();
     }, [id, user])
@@ -78,15 +79,20 @@ export const ProductDetails = () => {
         setIsProductFavorite(false);
     }
 
-    useEffect(() => {
+    const isProductFavoriteByUser = (user) => {
         let found = false;
         user?.favorite_product_ids.forEach(id_favorite => {
             if(id_favorite == id){
                 found = true;
             }
         });
+        return found;
+    }
+
+    useEffect(() => {
+        const found = isProductFavoriteByUser(user);
         setIsProductFavorite(found);
-        console.log(isProductFavorite)
+        console.log(product)
     }, [user])
 
     return (
@@ -100,7 +106,7 @@ export const ProductDetails = () => {
                     </div>
                     <div className='product-details-right'>
                         <div className='product-details-right_info'>
-                            <h2 className='title'>Zapatillas DC super small</h2>
+                            <h2 className='title'>{product?.name}</h2>
                             <h3 className='brand'>Marca: DC</h3>
                             <h3 className='text-blue-700 font-extrabold text-4xl'>${product?.price}</h3>
                             <h3 className='description'>Zapatillas marca DC super ergonomicas y bien configuradas, tienen unos cordones que son super reforzados, con una gran ligereza en su tamanio, y una breve plataforma que te permite tener mejor apoye y agarre en superficies duras y blandas</h3>

@@ -16,7 +16,7 @@ export const Navbar = () => {
     const [open, setOpen] = useState(false)
 
     if(user){
-        console.log(user)
+        //console.log(user)
     }
 
     if(loading) return <h1>Loading...</h1>
