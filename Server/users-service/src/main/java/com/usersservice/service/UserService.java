@@ -217,7 +217,7 @@ public class UserService implements IUserService{
         }
 
         List<Long> listProductFavorites = user.getFavorite_product_ids();
-        for(int i = 0 ; i <= listProductFavorites.size(); i++){
+        for(int i = 0 ; i < listProductFavorites.size(); i++){
             Long id_prod = listProductFavorites.get(i);
             if(id_prod.equals(id_product)){
                 listProductFavorites.remove(i);

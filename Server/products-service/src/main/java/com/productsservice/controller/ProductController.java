@@ -60,7 +60,7 @@ public class ProductController {
 
     // USER OR ADMIN
     @GetMapping("/productsFavorites")
-    public ResponseEntity<?> getFavoriteProductsIds(HttpServletRequest request){
+    public ResponseEntity<?> getFavoriteProducts(HttpServletRequest request){
         String authorizationHeader = request.getHeader("Authorization");
         return productService.getFavoriteProductsIds(authorizationHeader);
     }

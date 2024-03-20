@@ -122,7 +122,6 @@ public class UserController {
         System.out.println("llega");
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
             String token = authorizationHeader.substring(7);
-            System.out.println(token);
             boolean isValidToken = userService.validateToken(token);
             if(isValidToken){
                 String email_user = userService.getUsernameByToken(token);
