@@ -29,6 +29,19 @@ export const getFavoriteProductsRequest = (token) => {
         });
     }
 } 
+
+export const editProductRequest = (product, token) => {
+    if(token){
+        return fetch(`${instance}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(product)
+        });
+    }
+}
 // export const loginRequest = user => instance.post(`/auth/login`, user)
 // export const verifyTokenRequest = token => {
 //     if(token){
