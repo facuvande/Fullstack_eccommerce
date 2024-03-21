@@ -4,9 +4,10 @@ import { FooterNav } from './FooterNav'
 import { useAuth } from '../context/AuthContext'
 import { Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { getProducts } from '../api/product'
+import { editProductRequest, getProducts } from '../api/product'
 import { useState } from 'react'
 import { EditProductsModal } from './EditProductsModal'
+import Cookies from 'js-cookie'
 
 export const EditProducts = () => {
 
@@ -23,6 +24,18 @@ export const EditProducts = () => {
         setModal(!modal);
         setProductToEdit(product);
     }
+
+    const handleEditProduct = async (updatedProduct) => {
+        const cookies = Cookies.get();
+        const res = await editProductRequest(updatedProduct, cookies.token);
+        if (res.ok) {
+            // Actualiza la lista de productos después de la edición
+            getProducts().then(response => response.json()).then(data => setProducts(data));
+            toggleEditModal();
+        } else {
+            console.error('Error al editar el producto');
+        }
+    };
 
     if(user.rol[0].name !== 'ADMIN') return <Navigate to='/'/>
 
@@ -84,7 +97,7 @@ export const EditProducts = () => {
                 </table>
             </div>
             {
-                modal ? <EditProductsModal toggleEditModal={toggleEditModal} product={productToEdit}/> : null
+                modal ? <EditProductsModal toggleEditModal={toggleEditModal} product={productToEdit} onSubmit={handleEditProduct}/> : null
             }
             <FooterNav/>
         </>
