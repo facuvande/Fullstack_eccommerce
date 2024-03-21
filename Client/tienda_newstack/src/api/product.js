@@ -1,5 +1,14 @@
 const instance = 'http://localhost:8083/products'
 
+export const getProducts = () => {
+    return fetch(instance, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+}
+
 export const getProductByIdRequest = productId => {
     return fetch(`${instance}/${productId}`, {
             method: 'GET',
