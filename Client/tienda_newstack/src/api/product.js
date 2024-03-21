@@ -42,6 +42,18 @@ export const editProductRequest = (product, token) => {
         });
     }
 }
+
+export const deleteProductRequest = (id_product, token) => {
+    if(token){
+        return fetch(`${instance}/${id_product}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+    }
+}
+
 // export const loginRequest = user => instance.post(`/auth/login`, user)
 // export const verifyTokenRequest = token => {
 //     if(token){
