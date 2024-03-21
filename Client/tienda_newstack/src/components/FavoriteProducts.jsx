@@ -23,6 +23,9 @@ export const FavoriteProducts = ({user}) => {
     return (
         <>
             <h2 className='mt-32 text-center text-3xl font-bold'>Productos favoritos</h2>
+            {
+                productsFavorites.length === 0 && <h2 className='mt-32 text-center text-3xl font-bold'>No tienes productos favoritos</h2>
+            }
             <section className='max-w-[1000px] m-auto mt-20 gap-6 grid lg:grid-cols-3 sm:grid-cols-1 md:grid-cols-2 p-2'>
                 {
                     productsFavorites.map(product => (
