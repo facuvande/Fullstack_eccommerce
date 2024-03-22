@@ -60,6 +60,7 @@ public class UserService implements IUserService{
         userRepository.save(user);
 
         UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId_user(user.getId_user());
         userResponseDTO.setId_cart(user.getId_cart());
         userResponseDTO.setEmail(user.getEmail());
         userResponseDTO.setName(user.getName());
@@ -94,6 +95,7 @@ public class UserService implements IUserService{
         User user = this.getUserByEmail(loginDTO.getEmail());
 
         UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId_user(user.getId_user());
         userResponseDTO.setId_cart(user.getId_cart());
         userResponseDTO.setEmail(user.getEmail());
         userResponseDTO.setName(user.getName());
