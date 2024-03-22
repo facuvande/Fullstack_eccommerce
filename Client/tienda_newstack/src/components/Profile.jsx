@@ -7,6 +7,7 @@ import { FooterNav } from './FooterNav'
 import Cookies from 'js-cookie';
 import { FavoriteProducts } from './FavoriteProducts'
 import { EditProducts } from './EditProducts'
+import { EditUsers } from './EditUsers'
 
 export const Profile = () => {
 
@@ -37,6 +38,9 @@ export const Profile = () => {
             }
             {
                 showSeccion === 'edit-products' && <EditProducts user={user} />
+            }
+            {
+                showSeccion === 'edit-users' && <EditUsers />
             }
 
             <FooterNav changeSeccion={changeSeccion}/>

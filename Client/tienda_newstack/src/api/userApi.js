@@ -1,5 +1,17 @@
 const instance = 'http://localhost:8082/users';
 
+export const getUsersRequest = (token) => {
+    if(token){
+        return fetch(`${instance}/api`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    }
+}
+
 export const editProfileRequest = (newData, token) => {
     if (token) {
         return fetch(`${instance}/api/editUser`, {

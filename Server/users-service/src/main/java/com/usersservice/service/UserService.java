@@ -141,7 +141,7 @@ public class UserService implements IUserService{
         List<UserResponseDTO> listUserResponse = new ArrayList<>();
 
         for(User user : listUsers){
-            listUserResponse.add(new UserResponseDTO(user.getName(), user.getLastname(), user.getEmail(), user.getRol(), user.getFavorite_product_ids(), user.getId_cart()));
+            listUserResponse.add(new UserResponseDTO(user.getId_user() ,user.getName(), user.getLastname(), user.getEmail(), user.getRol(), user.getFavorite_product_ids(), user.getId_cart()));
         }
         return listUserResponse;
     }
@@ -150,7 +150,7 @@ public class UserService implements IUserService{
     public UserResponseDTO getUserById(Long id_user) {
         User user = userRepository.findById(id_user).orElse(null);
         if(user != null){
-            return new UserResponseDTO(user.getName(), user.getLastname(), user.getEmail(), user.getRol(), user.getFavorite_product_ids(), user.getId_cart());
+            return new UserResponseDTO(user.getId_user(), user.getName(), user.getLastname(), user.getEmail(), user.getRol(), user.getFavorite_product_ids(), user.getId_cart());
         }
         return null;
     }
