@@ -6,6 +6,7 @@ import com.usersservice.dto.UserResponseDTO;
 import com.usersservice.model.User;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -25,5 +26,6 @@ public interface IUserService {
     public ResponseEntity<?> saveProductFavoriteByEmail(String email, Long id_product);
     public ResponseEntity<?> deleteProductFavoriteByEmail(String email, Long id_product);
     public ResponseEntity<List<Long>> getFavoriteProductsIds(String email);
+    public List<User> findUserIdsByFavoriteProductId(Long id_product);
 
 }

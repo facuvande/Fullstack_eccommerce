@@ -2,6 +2,7 @@ package com.productsservice.repository;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -14,4 +15,7 @@ public interface IUserAPI {
     public ResponseEntity<String> getRoleByToken(@PathVariable String token);
     @GetMapping("users/api/user/idProductsFavorites")
     public ResponseEntity<List<Long>> getFavoriteProductsIds(@RequestHeader("Authorization") String authorizationHeader);
+    @DeleteMapping("users/api/user/favorite/{id_product}")
+    public ResponseEntity<String> deleteProductFavoriteByProductId(@PathVariable Long id_product, @RequestHeader("Authorization") String authorizationHeader);
+
 }

@@ -19,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
@@ -248,5 +249,9 @@ public class UserService implements IUserService{
 
         List<Long> listProductFavorites = user.getFavorite_product_ids();
         return new ResponseEntity<>(listProductFavorites, HttpStatus.OK);
+    }
+
+    public List<User> findUserIdsByFavoriteProductId(Long id_product){
+        return userRepository.findUserIdsByFavoriteProductId(id_product);
     }
 }

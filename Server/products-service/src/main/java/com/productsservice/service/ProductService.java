@@ -41,7 +41,8 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public void deleteProductById(Long id_product) {
+    public void deleteProductById(Long id_product, String authorizationHeader) {
+        userAPI.deleteProductFavoriteByProductId(id_product, authorizationHeader);
         productRepository.deleteById(id_product);
     }
 

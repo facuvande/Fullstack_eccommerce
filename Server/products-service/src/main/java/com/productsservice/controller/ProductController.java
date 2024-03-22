@@ -54,7 +54,8 @@ public class ProductController {
         if(!hasAdminRole(request)){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        productService.deleteProductById(id_product);
+        String authorizationHeader = request.getHeader("Authorization");
+        productService.deleteProductById(id_product, authorizationHeader);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
