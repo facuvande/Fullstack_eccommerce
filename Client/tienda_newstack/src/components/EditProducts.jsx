@@ -4,11 +4,12 @@ import { FooterNav } from './FooterNav'
 import { useAuth } from '../context/AuthContext'
 import { Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import { deleteProductRequest, editProductRequest, getProducts } from '../api/product'
+import { addProductRequest, deleteProductRequest, editProductRequest, getProducts } from '../api/product'
 import { useState } from 'react'
 import { EditProductsModal } from './EditProductsModal'
 import Cookies from 'js-cookie'
 import Swal from 'sweetalert2'
+import { AddProductsModal } from './AddProductsModal'
 
 export const EditProducts = () => {
 
@@ -16,6 +17,7 @@ export const EditProducts = () => {
     const [products, setProducts] = useState([])
     const [productToEdit, setProductToEdit] = useState(null)
     const [modal, setModal] = useState(false);
+    const [addProductModal, setAddProductModal] = useState(false);
 
     useEffect(() => {
         getProducts().then(response => response.json()).then(data => setProducts(data))
@@ -24,6 +26,10 @@ export const EditProducts = () => {
     const toggleEditModal = (product) => {
         setModal(!modal);
         setProductToEdit(product);
+    }
+
+    const toggleAddProductModal = () => {
+        setAddProductModal(!addProductModal);
     }
 
     const handleEditProduct = async (updatedProduct) => {
@@ -35,6 +41,18 @@ export const EditProducts = () => {
             toggleEditModal();
         } else {
             console.error('Error al editar el producto');
+        }
+    };
+
+    const handleAddProduct = async (product) => {
+        const cookies = Cookies.get();
+        const res = await addProductRequest(product, cookies.token);
+        if (res.ok) {
+            // Actualiza la lista de productos después de agregar
+            getProducts().then(response => response.json()).then(data => setProducts(data));
+            toggleAddProductModal();
+        } else {
+            console.error('Error al agregar el producto');
         }
     };
 
@@ -130,6 +148,23 @@ export const EditProducts = () => {
             {
                 modal ? <EditProductsModal toggleEditModal={toggleEditModal} product={productToEdit} onSubmit={handleEditProduct}/> : null
             }
+            
+
+            <div data-dial-init className="fixed end-6 bottom-6 group">
+                <div id="speed-dial-menu-default" className="flex flex-col items-center mb-12 space-y-2">
+                <button type="button" onClick={toggleAddProductModal} data-dial-toggle="speed-dial-menu-default" aria-controls="speed-dial-menu-default" aria-expanded="false" className="flex items-center justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
+                    <svg className="w-5 h-5 transition-transform group-hover:rotate-45" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16"/>
+                    </svg>
+                    <span className="sr-only">Open actions menu</span>
+                </button>
+                </div>
+            </div>
+
+            {
+                addProductModal ? <AddProductsModal toggleAddProductModal={toggleAddProductModal} handleAddProduct={handleAddProduct}/> : null
+            }
+
             <FooterNav/>
         </>
     )
