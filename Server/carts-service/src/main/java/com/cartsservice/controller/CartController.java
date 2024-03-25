@@ -7,9 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/carts")
@@ -22,6 +20,12 @@ public class CartController {
     @PostMapping("")
     public ResponseEntity<Long> createCart(){
         return new ResponseEntity<>(cartService.createCart(), HttpStatus.OK);
+    }
+
+    // ADMIN OR USER
+    @PostMapping("/addProduct/{id_cart}/{id_product}/{quantity}")
+    public ResponseEntity<Cart> addProductToCart(@PathVariable Long id_cart, @PathVariable Long id_product, @PathVariable String quantity){
+        return new ResponseEntity<>(cartService.addProductToCart(id_cart, id_product, quantity), HttpStatus.OK);
     }
 
     private boolean hasAdminUserRole(HttpServletRequest request){

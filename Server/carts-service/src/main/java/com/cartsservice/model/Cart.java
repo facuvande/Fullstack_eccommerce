@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,8 +17,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_cart;
     private Double total_ammount;
-    @ElementCollection
-    @CollectionTable(name = "products_ids", joinColumns = @JoinColumn(name = "id_cart"))
-    @Column(name = "id_product")
-    private List<Long> product_ids;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "cart_id")
+    private List<CartItem> items = new ArrayList<>();
 }
