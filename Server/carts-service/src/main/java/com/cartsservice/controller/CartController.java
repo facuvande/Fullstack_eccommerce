@@ -20,10 +20,7 @@ public class CartController {
 
     // ADMIN OR USER
     @PostMapping("")
-    public ResponseEntity<Long> createCart(HttpServletRequest request){
-        if(!hasAdminUserRole(request)){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity<Long> createCart(){
         return new ResponseEntity<>(cartService.createCart(), HttpStatus.OK);
     }
 

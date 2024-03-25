@@ -5,6 +5,7 @@ import com.usersservice.dto.UserDTO;
 import com.usersservice.dto.UserResponseDTO;
 import com.usersservice.model.Role;
 import com.usersservice.model.User;
+import com.usersservice.repository.ICartAPI;
 import com.usersservice.repository.IRolRepository;
 import com.usersservice.repository.IUserRepository;
 import com.usersservice.security.JwtTokenGenerator;
@@ -31,6 +32,8 @@ public class UserService implements IUserService{
     private JwtTokenGenerator jwtTokenGenerator;
     @Autowired
     private IUserRepository userRepository;
+    @Autowired
+    private ICartAPI iCartAPI;
 
     public UserService(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, IRolRepository roleRepository, JwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository) {
         this.authenticationManager = authenticationManager;
@@ -55,8 +58,7 @@ public class UserService implements IUserService{
         user.setEmail(userDTO.getEmail());
         Role roles = roleRepository.findByName("USER");
         user.setRol(Collections.singletonList(roles));
-        // Todo: Crear carrito y asignar id de carrito al usuario
-        user.setId_cart(3L);
+        user.setId_cart(iCartAPI.createCart().getBody());
         userRepository.save(user);
 
         UserResponseDTO userResponseDTO = new UserResponseDTO();
