@@ -10,11 +10,10 @@ import { Navbar } from '../components/Navbar';
 import product_image from '../assets/iphone.png'
 import './ProductDetails.css'
 import { useAuth } from '../context/AuthContext';
-import { Navigate } from 'react-router-dom';
 import { Footer } from '../components/Footer';
 import { deleteProductFavorite, saveProductFavorite } from '../api/userApi';
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+import { addProductToCartRequest } from '../api/cartApi';
 
 export const ProductDetails = () => {
 
@@ -52,7 +51,7 @@ export const ProductDetails = () => {
         })
     }
 
-    const addProductToCart = () => {
+    const addProductToCart = async(id_product, quantity) => {
             if(!user){
                 showAlert('Debes iniciar sesion para agregar productos al carrito', 'error')
                 const timer = setTimeout(() => {
@@ -60,6 +59,9 @@ export const ProductDetails = () => {
                 }, 2300)
                 return () => clearTimeout(timer)
             }else{
+                console.log(id_product, quantity)
+                console.log(user)
+                await addProductToCartRequest(user.id_cart, id_product, quantity, Cookies.get('token'))
                 showAlert('Producto agregado correctamente', 'success')
             }
         }
@@ -118,7 +120,7 @@ export const ProductDetails = () => {
                                 <span className='plus' onClick={incrementQuantity}>+</span>
                             </div>
                             <div className='buttons'>
-                                <button className='add-to-cart bg-blue-700 text-white py-2 px-6 rounded md:ml-8 hover:bg-blue-500 duration-500' onClick={addProductToCart}>Agregar al carrito</button>
+                                <button className='add-to-cart bg-blue-700 text-white py-2 px-6 rounded md:ml-8 hover:bg-blue-500 duration-500' onClick={() => addProductToCart(product?.id_product, quantity)}>Agregar al carrito</button>
                                 
                                 {
                                     isProductFavorite ? <FaHeartCrack className='addFavorite' style={{color: 'red'}} onClick={deleteProductToFavorite}/> : <GoHeartFill className='addFavorite' onClick={addProductToFavorite}/>

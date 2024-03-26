@@ -24,7 +24,10 @@ public class CartController {
 
     // ADMIN OR USER
     @PostMapping("/addProduct/{id_cart}/{id_product}/{quantity}")
-    public ResponseEntity<Cart> addProductToCart(@PathVariable Long id_cart, @PathVariable Long id_product, @PathVariable String quantity){
+    public ResponseEntity<Cart> addProductToCart(@PathVariable Long id_cart, @PathVariable Long id_product, @PathVariable String quantity, HttpServletRequest request){
+        if(!hasAdminUserRole(request)){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(cartService.addProductToCart(id_cart, id_product, quantity), HttpStatus.OK);
     }
 
