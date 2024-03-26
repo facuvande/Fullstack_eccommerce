@@ -37,9 +37,9 @@ public class UserController {
             boolean isValidToken = userService.validateToken(token);
             if(isValidToken){
                 User user = userService.getUserByEmail(userService.getUsernameByToken(token));
-                return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail(), user.getRol(), user.getFavorite_product_ids()), HttpStatus.OK);
+                return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail(), user.getRol(), user.getFavorite_product_ids(), user.getId_cart()), HttpStatus.OK);
             }else{
-                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null, null), HttpStatus.BAD_REQUEST);
             }
         }
         return new ResponseEntity<>(HttpStatus.OK);
@@ -80,10 +80,10 @@ public class UserController {
                 if(user == null){
                     return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
                 }else{
-                    return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail(), user.getRol(), user.getFavorite_product_ids()), HttpStatus.OK);
+                    return new ResponseEntity<>(new ValidationTokenDTO(true, user.getName(), user.getLastname(), user.getEmail(), user.getRol(), user.getFavorite_product_ids(), user.getId_cart()), HttpStatus.OK);
                 }
             }else{
-                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null, null), HttpStatus.BAD_REQUEST);
             }
         }else{
             return new ResponseEntity<>("Not authenticated", HttpStatus.UNAUTHORIZED);
@@ -109,7 +109,7 @@ public class UserController {
                 }
             }else{
                 System.out.println(isValidToken);
-                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null, null), HttpStatus.BAD_REQUEST);
             }
         }else{
             return new ResponseEntity<>("Not authenticated", HttpStatus.UNAUTHORIZED);
@@ -133,7 +133,7 @@ public class UserController {
                     return userService.deleteProductFavoriteByEmail(email_user, id_product);
                 }
             }else{
-                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null, null), HttpStatus.BAD_REQUEST);
             }
         }else{
             return new ResponseEntity<>("Not authenticated", HttpStatus.UNAUTHORIZED);
