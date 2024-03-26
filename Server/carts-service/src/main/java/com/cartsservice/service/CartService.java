@@ -1,8 +1,11 @@
 package com.cartsservice.service;
 
+import com.cartsservice.dto.CartResponseDTO;
+import com.cartsservice.dto.ProductDTO;
 import com.cartsservice.model.Cart;
 import com.cartsservice.model.CartItem;
 import com.cartsservice.repository.ICartRepository;
+import com.cartsservice.repository.IProductAPI;
 import com.cartsservice.repository.IUserAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,8 @@ public class CartService implements ICartService{
     private ICartRepository cartRepository;
     @Autowired
     private IUserAPI userAPI;
+    @Autowired
+    private IProductAPI productAPI;
     @Override
     public Long createCart() {
         Cart myCart = new Cart();
@@ -37,13 +42,37 @@ public class CartService implements ICartService{
     }
 
     @Override
-    public Cart getCartById(Long id_cart) {
-        return cartRepository.findById(id_cart).orElse(null);
+    public CartResponseDTO getCartById(Long id_cart) {
+        Cart myCart = cartRepository.findById(id_cart).orElse(null);
+        List<Long> myProductsIds = new ArrayList<>();
+
+        assert myCart != null;
+        for(CartItem item : myCart.getItems()){
+            myProductsIds.add(item.getId_product());
+        }
+
+        List<ProductDTO> listProductsOfCart = productAPI.getProductsByIds(myProductsIds);
+
+        for(CartItem item : myCart.getItems()){
+            for(ProductDTO product : listProductsOfCart){
+                if(item.getId_product().equals(product.getId_product())){
+                    product.setQuantity(item.getQuantity());
+                    break;
+                }
+            }
+        }
+
+        CartResponseDTO cartResponseDTO = new CartResponseDTO();
+        cartResponseDTO.setId_cart(myCart.getId_cart());
+        cartResponseDTO.setItems(listProductsOfCart);
+        cartResponseDTO.setTotal_ammount(myCart.getTotal_ammount());
+
+        return cartResponseDTO;
     }
 
     @Override
     public Cart addProductToCart(Long id_cart, Long id_product, String quantity) {
-        Cart myCart = this.getCartById(id_cart);
+        Cart myCart = cartRepository.findById(id_cart).orElse(null);
         List<CartItem> myCartProductList = myCart.getItems();
         boolean productFound = false;
 

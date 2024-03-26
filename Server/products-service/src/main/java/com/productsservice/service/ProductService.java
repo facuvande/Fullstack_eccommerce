@@ -36,6 +36,15 @@ public class ProductService implements IProductService{
     }
 
     @Override
+    public List<Product> getProductsById(List<Long> id_product) {
+        List<Product> productList = new ArrayList<>();
+        for(Long id : id_product){
+            productList.add(this.getProductById(id));
+        }
+        return productList;
+    }
+
+    @Override
     public Product editProduct(Product product) {
         return productRepository.save(product);
     }

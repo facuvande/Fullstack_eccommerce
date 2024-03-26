@@ -1,5 +1,6 @@
 package com.cartsservice.controller;
 
+import com.cartsservice.dto.CartResponseDTO;
 import com.cartsservice.model.Cart;
 import com.cartsservice.service.ICartService;
 import feign.FeignException;
@@ -20,6 +21,15 @@ public class CartController {
     @PostMapping("")
     public ResponseEntity<Long> createCart(){
         return new ResponseEntity<>(cartService.createCart(), HttpStatus.OK);
+    }
+
+    // ADMIN OR USER
+    @GetMapping("/{id_cart}")
+    public ResponseEntity<CartResponseDTO> getCartById(@PathVariable Long id_cart, HttpServletRequest request){
+        if(!hasAdminUserRole(request)){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(cartService.getCartById(id_cart), HttpStatus.OK);
     }
 
     // ADMIN OR USER

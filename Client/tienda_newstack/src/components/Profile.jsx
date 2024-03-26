@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 import { FavoriteProducts } from './FavoriteProducts'
 import { EditProducts } from './EditProducts'
 import { EditUsers } from './EditUsers'
+import { Cart } from './Cart'
 
 export const Profile = () => {
 
@@ -41,6 +42,9 @@ export const Profile = () => {
             }
             {
                 showSeccion === 'edit-users' && <EditUsers />
+            }
+            {
+                showSeccion === 'cart' && <Cart/>
             }
 
             <FooterNav changeSeccion={changeSeccion}/>

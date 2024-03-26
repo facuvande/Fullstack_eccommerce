@@ -34,6 +34,12 @@ public class ProductController {
     }
 
     // ALL
+    @PostMapping("/getByIds")
+    public ResponseEntity<List<Product>> getProductsByIds(@RequestBody List<Long> id_product){
+        return new ResponseEntity<>(productService.getProductsById(id_product), HttpStatus.OK);
+    }
+
+    // ALL
     @GetMapping("/{id_product}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id_product){
         return new ResponseEntity<>(productService.getProductById(id_product), HttpStatus.OK);
