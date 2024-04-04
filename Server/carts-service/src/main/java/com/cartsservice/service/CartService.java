@@ -102,16 +102,12 @@ public class CartService implements ICartService{
     @Override
     public Cart deleteProductToCart(Long id_cart, Long id_product) {
         Cart myCart = cartRepository.findById(id_cart).orElse(null);
-        List<CartItem> myCartProductList = myCart.getItems();
-        List<CartItem> newMyCartProductList = new ArrayList<>();
 
-        for(CartItem product : myCartProductList){
-            if(!product.getId_product().equals(id_product)){
-                newMyCartProductList.add(product);
-            }
+        if(myCart != null){
+            myCart.getItems().removeIf(item -> item.getId_product().equals(id_product));
+            myCart = cartRepository.save(myCart);
         }
 
-        myCart.setItems(newMyCartProductList);
-        return cartRepository.save(myCart);
+        return myCart;
     }
 }

@@ -13,7 +13,7 @@ import { useAuth } from '../context/AuthContext';
 import { Footer } from '../components/Footer';
 import { deleteProductFavorite, saveProductFavorite } from '../api/userApi';
 import Cookies from 'js-cookie';
-import { addProductToCartRequest } from '../api/cartApi';
+import { addProductToCartRequest, getCartRequest } from '../api/cartApi';
 
 export const ProductDetails = () => {
 
@@ -61,8 +61,28 @@ export const ProductDetails = () => {
             }else{
                 console.log(id_product, quantity)
                 console.log(user)
-                await addProductToCartRequest(user.id_cart, id_product, quantity, Cookies.get('token'))
-                showAlert('Producto agregado correctamente', 'success')
+                // Traemos el carrito del usuario
+                getCartRequest(user.id_cart, Cookies.get('token')).then(response => response.json()).then(data => {
+                    const itemsCart = data.items;
+
+                    const existingProduct = itemsCart.find(item => item.id_product == id_product);
+
+                    if(existingProduct){
+                        const totalQuantity = existingProduct.quantity + quantity;
+                        if(totalQuantity > existingProduct.stock){
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Stock insuficiente',
+                                text: 'No hay suficiente stock para agregar la cantidad seleccionada'
+                            })
+                            return;
+                        }
+                    }
+
+                    addProductToCartRequest(user.id_cart, id_product, quantity, Cookies.get('token'))
+                    showAlert('Producto agregado correctamente', 'success')
+                    console.log(data)
+                })
             }
         }
 

@@ -20,3 +20,12 @@ export const addProductToCartRequest = (id_cart, id_product, quantity, token) =>
     });
 }
 
+export const deleteProductToCartRequest = (id_cart, id_product, token) => {
+    return fetch(`${instance}/deleteProduct/${id_cart}/${id_product}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+}
