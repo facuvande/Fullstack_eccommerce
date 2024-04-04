@@ -1,6 +1,8 @@
 package com.productsservice.controller;
 
+import com.productsservice.dto.ProductUploadImageDTO;
 import com.productsservice.model.Product;
+import com.productsservice.service.CloudinaryService;
 import com.productsservice.service.IProductService;
 import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/products")
@@ -17,14 +22,46 @@ public class ProductController {
 
     @Autowired
     private IProductService productService;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     // ADMIN
     @PostMapping("")
-    public ResponseEntity<?> createProduct(@RequestBody Product product, HttpServletRequest request){
+    public ResponseEntity<?> createProduct(@ModelAttribute ProductUploadImageDTO productUploadImageDTO, HttpServletRequest request) {
         if(!hasAdminRole(request)){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(productService.createProduct(product), HttpStatus.OK);
+
+        Product product = new Product(productUploadImageDTO.getId_product(), productUploadImageDTO.getName(), productUploadImageDTO.getDescription(), productUploadImageDTO.getBrand(), productUploadImageDTO.getThumbnail(), productUploadImageDTO.getPrice(), productUploadImageDTO.getStock());
+
+        try{
+            Map<String, String> cloudinaryResult = cloudinaryService.upload(productUploadImageDTO.getMultipartFile());
+
+            if(cloudinaryResult != null && cloudinaryResult.containsKey("url")){
+                String url = cloudinaryResult.get("url");
+                product.setThumbnail(url);
+            }else{
+                return new ResponseEntity<>("Error al cargar la imagen al servidor", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            Product productCreated = productService.createProduct(product);
+            return new ResponseEntity<>(productCreated, HttpStatus.OK);
+
+        }catch (IOException e){
+            e.printStackTrace();
+            return new ResponseEntity<>("Error al cargar la imagen", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // ADMIN
+    @PostMapping("/uploadImage")
+    public ResponseEntity<?> uploadImage(@RequestParam MultipartFile multipartFile, HttpServletRequest request) throws IOException {
+        if(!hasAdminRole(request)){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        Map result = cloudinaryService.upload(multipartFile);
+        return new ResponseEntity<>(result.get("public_id"), HttpStatus.OK);
     }
 
     // ALL

@@ -7,8 +7,15 @@ export const AddProductsModal = ({toggleAddProductModal, handleAddProduct}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const handleFormSubmit = handleSubmit(async (data) => {
-        console.log(data)
-        await handleAddProduct(data)
+        const formData = new FormData();
+        formData.append('name', data.name);
+        formData.append('price', data.price);
+        formData.append('stock', data.stock);
+        formData.append('brand', data.brand);
+        formData.append('description', data.description);
+        formData.append('multipartFile', data.multipartFile[0]);
+        console.log(data.multipartFile[0])
+        await handleAddProduct(formData)
     })
 
     return (
@@ -29,6 +36,11 @@ export const AddProductsModal = ({toggleAddProductModal, handleAddProduct}) => {
                         </div>
                         <form className="p-4 md:p-5">
                             <div className="grid gap-4 mb-4 grid-cols-2">
+                                <div className="col-span-2">
+                                    <label htmlFor="multipartFile" className="block mb-2 text-sm font-medium text-white">Imagen</label>
+                                    <input type="file" className='text-white' name="multipartFile" id="multipartFile" {...register("multipartFile", { required: true })} />
+                                    { errors.multipartFile && <span className="error">Este campo es requerido</span> }
+                                </div>
                                 <div className="col-span-2">
                                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
                                     <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Nombre de Producto" {...register("name", { required: true })}/>

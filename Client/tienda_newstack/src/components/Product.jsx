@@ -1,12 +1,11 @@
 import React from 'react'
-import image from '../assets/iphone.png'
 import { Link } from 'react-router-dom'
 
 export const Product = ({id_product, name, price, thumbnail}) => {
     return (
         <div className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
-                <img className="m-auto min-w-[250px] max-w-[250px] min-h-[250px] max-h-[250px] p-8 rounded-t-lg" src={image} alt="product image" />
+                <img className="m-auto min-w-[250px] max-w-[250px] min-h-[250px] max-h-[250px] p-8 rounded-t-lg" src={thumbnail} alt="product image" />
             </a>
             <div className="px-5 pb-5">
                 <a href="#">

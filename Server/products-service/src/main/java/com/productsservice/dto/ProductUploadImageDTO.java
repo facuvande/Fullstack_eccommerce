@@ -1,16 +1,14 @@
-package com.productsservice.model;
+package com.productsservice.dto;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-@Getter @Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProductUploadImageDTO {
     private Long id_product;
     private String name;
     private String description;
@@ -18,4 +16,5 @@ public class Product {
     private String thumbnail;
     private Double price;
     private int stock;
+    private MultipartFile multipartFile;
 }

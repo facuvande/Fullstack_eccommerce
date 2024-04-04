@@ -7,7 +7,6 @@ import { getProductByIdRequest } from '../api/product';
 import { GoHeartFill } from "react-icons/go";
 import { FaHeartCrack } from "react-icons/fa6";
 import { Navbar } from '../components/Navbar';
-import product_image from '../assets/iphone.png'
 import './ProductDetails.css'
 import { useAuth } from '../context/AuthContext';
 import { Footer } from '../components/Footer';
@@ -124,7 +123,7 @@ export const ProductDetails = () => {
             <div className='product-details-container'>
                 <div className='product-details'>
                     <div className='product-details-left'>
-                        <img src={product_image} alt={product?.name}/>
+                        <img src={product?.thumbnail} alt={product?.name}/>
                     </div>
                     <div className='product-details-right'>
                         <div className='product-details-right_info'>
