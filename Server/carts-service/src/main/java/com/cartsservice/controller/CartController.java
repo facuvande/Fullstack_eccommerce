@@ -41,6 +41,15 @@ public class CartController {
         return new ResponseEntity<>(cartService.addProductToCart(id_cart, id_product, quantity), HttpStatus.OK);
     }
 
+    // ADMIN OR USER
+    @PostMapping("/deleteProduct/{id_cart}/{id_product}")
+    public ResponseEntity<Cart> deleteProductToCart(@PathVariable Long id_cart, @PathVariable Long id_product, HttpServletRequest request){
+        if(!hasAdminUserRole(request)){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(cartService.deleteProductToCart(id_cart, id_product), HttpStatus.OK);
+    }
+
     private boolean hasAdminUserRole(HttpServletRequest request){
         String token = extractTokenFromHeader(request);
         try {
