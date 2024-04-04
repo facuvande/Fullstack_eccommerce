@@ -19,3 +19,4 @@ export const addProductToCartRequest = (id_cart, id_product, quantity, token) =>
         },
     });
 }
+
