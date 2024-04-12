@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CartService implements ICartService{
@@ -116,6 +117,24 @@ public class CartService implements ICartService{
         Cart myCart = cartRepository.findById(id_cart).orElse(null);
 
         if(myCart != null){
+            List<CartItem> myCartProductList = myCart.getItems();
+
+            // Busca producto en carrito
+            Optional<CartItem> optionalCartItem = myCartProductList.stream()
+                            .filter(item -> item.getId_product().equals(id_product))
+                                    .findFirst();
+            if(optionalCartItem.isPresent()){
+                CartItem itemToRemove = optionalCartItem.get();
+                int quantityToRemove = itemToRemove.getQuantity();
+                List<Long> productIdsList = new ArrayList<>();
+                productIdsList.add(itemToRemove.getId_product());
+
+                List<ProductDTO> products = productAPI.getProductsByIds(productIdsList);
+                for(ProductDTO product : products){
+                    myCart.setTotal_ammount(myCart.getTotal_ammount() - (quantityToRemove * product.getPrice()));
+                }
+            }
+
             myCart.getItems().removeIf(item -> item.getId_product().equals(id_product));
             myCart = cartRepository.save(myCart);
         }
