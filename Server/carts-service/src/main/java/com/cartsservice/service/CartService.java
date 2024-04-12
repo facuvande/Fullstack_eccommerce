@@ -82,7 +82,13 @@ public class CartService implements ICartService{
                 // El product esta en el carrito, entonces actualizacion cantidad;
                 int newQuantity = item.getQuantity() + Integer.parseInt(quantity);
                 item.setQuantity(newQuantity);
-                productFound = true;
+                productFound = true ;
+                List<Long> productIdList = new ArrayList<>();
+                productIdList.add(item.getId_product());
+                List<ProductDTO> products = productAPI.getProductsByIds(productIdList);
+                for(ProductDTO prod : products){
+                    myCart.setTotal_ammount(myCart.getTotal_ammount() + (Double.parseDouble(quantity) * prod.getPrice()));
+                }
                 break;
             }
         }
@@ -93,6 +99,12 @@ public class CartService implements ICartService{
             cartItem.setId_product(id_product);
             cartItem.setQuantity(Integer.parseInt(quantity));
             myCartProductList.add(cartItem);
+            List<Long> productIdList = new ArrayList<>();
+            productIdList.add(id_product);
+            List<ProductDTO> products = productAPI.getProductsByIds(productIdList);
+            for(ProductDTO prod : products){
+                myCart.setTotal_ammount(myCart.getTotal_ammount() + (Double.parseDouble(quantity) * prod.getPrice()));
+            }
         }
 
         myCart.setItems(myCartProductList);
