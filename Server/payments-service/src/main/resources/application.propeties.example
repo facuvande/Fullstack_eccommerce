@@ -1,0 +1,15 @@
+server.port=8086
+spring.application.name=payments-service
+
+# Configuracion base de datos
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=LINK A BASE DE DATOS
+spring.datasource.username=USUARIO DE BASE DE DATOS
+spring.datasource.password=PASSWORD DE BASE DE DATOS
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+
+# Configuracion eureka
+eureka.client.service-url.defaultZone=LINK EUREKA EJEMPLO: http://localhost:8761/eureka
+
+# Configuracion conexion con servicios
+feign.users-service.url=CONEXION CON SERVICIO DE USUARIOS EJEMPLO http://localhost:8082/
