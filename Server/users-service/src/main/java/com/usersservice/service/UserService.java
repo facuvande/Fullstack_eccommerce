@@ -84,7 +84,6 @@ public class UserService implements IUserService{
         cookie.setMaxAge(24*60*60);
         cookie.setPath("/");
 
-        System.out.println(cookie.getName());
 
         response.addCookie(cookie);
 

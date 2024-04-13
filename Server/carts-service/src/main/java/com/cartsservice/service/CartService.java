@@ -205,12 +205,10 @@ public class CartService implements ICartService{
     @CircuitBreaker(name="products-service", fallbackMethod = "fallbackCreateAndRedirectPayment")
     @Retry(name="products-service")
     public ResponseEntity<String> okPurchase(Long id_cart) {
-        System.out.println("Se ejecuta el endpoint");
         Cart myCart = cartRepository.findById(id_cart).orElse(null);
         assert myCart != null;
         List<CartItem> myCartItems = myCart.getItems();
         for (CartItem item : myCartItems) {
-            System.out.println(item.getQuantity());
             productAPI.decreaseStock(item.getId_product(), item.getQuantity());
         }
         this.deleteAllProductToCart(id_cart);

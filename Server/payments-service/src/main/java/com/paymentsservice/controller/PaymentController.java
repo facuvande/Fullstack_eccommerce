@@ -44,7 +44,6 @@ public class PaymentController {
 
     @GetMapping("/createAndRedirect")
     public ResponseEntity<CreatePaymentResponseDTO> createAndRedirect(@RequestParam double total) throws MPException {
-        System.out.println(total);
         Preference preference = new Preference();
 
         preference.setBackUrls(
@@ -83,7 +82,6 @@ public class PaymentController {
                                                       @RequestParam("processing_mode") String processingMode,
                                                       @RequestParam("merchant_account_id") String merchantAccountId, Model model) throws MPException{
         var payment = com.mercadopago.resources.Payment.findById(collectionId);
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(payment));
         model.addAttribute("payment", payment);
 
         SuccessResponseDTO successResponseDTO = new SuccessResponseDTO();
@@ -115,7 +113,6 @@ public class PaymentController {
                           @RequestParam("processing_mode") String processingMode,
                           @RequestParam("merchant_account_id") String merchantAccountId, Model model) throws MPException{
         var payment = com.mercadopago.resources.Payment.findById(collectionId);
-        System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(payment));
         model.addAttribute("payment", payment);
         return "ok";
     }

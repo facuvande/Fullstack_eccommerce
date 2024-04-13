@@ -113,8 +113,7 @@ public class ProductController {
     @PostMapping("/decreaseStock/{id_product}/{quantity}")
     public ResponseEntity<?> decreaseStock(@PathVariable Long id_product, @PathVariable int quantity){
         Product myProduct = this.productService.getProductById(id_product);
-        System.out.println(myProduct.getStock());
-        System.out.println(quantity);
+
         myProduct.setStock(myProduct.getStock() - quantity);
         return new ResponseEntity<>(productService.editProduct(myProduct), HttpStatus.OK);
     }
