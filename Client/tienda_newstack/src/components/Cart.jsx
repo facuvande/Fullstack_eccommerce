@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext'
 import { deleteProductToCartRequest, getCartRequest } from '../api/cartApi';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
+import { getPurchaseRequest } from '../api/cartApi';
+import { createPaymentRequest } from '../api/userApi';
 
 export const Cart = () => {
 
@@ -32,10 +34,17 @@ export const Cart = () => {
         })
     }
 
-    const purchase = () => {
+    const purchase = async() => {
         console.log('Comprando')
         console.log(cartItems)
-        
+        console.log(cart.total_ammount)
+        await getPurchaseRequest(user.id_cart, Cookies.get('token')).then(async response => {
+            const dataResponsed = await response.json();
+            await createPaymentRequest(dataResponsed.payment_id, Cookies.get('token'));
+            window.location.href = dataResponsed.sandboxInitPoint
+        }).catch(error => {
+            console.log(error);
+        })
     }
 
     console.log(cart)

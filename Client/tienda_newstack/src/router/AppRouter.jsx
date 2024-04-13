@@ -9,6 +9,8 @@ import { ProtectedRoute } from '../ProtectedRoute';
 import { ProductDetails } from '../pages/ProductDetails';
 import { Profile } from '../components/Profile';
 import { EditProducts } from '../components/EditProducts';
+import SuccessPurchase from '../pages/SuccessPurchase';
+import FailurePurchase from '../pages/FailurePurchase';
 
 export const AppRouter = () => {
     
@@ -24,6 +26,8 @@ export const AppRouter = () => {
                 <Route path='/cart' element={<div>Carrito</div>}/>
                 <Route path='/profile' element={<Profile/>}/>
                 <Route path='/edit-products' element={<EditProducts/>}/>
+                <Route path='/success' element={<SuccessPurchase/>}/>
+                <Route path='/failure' element={<FailurePurchase/>}/>
             </Route>
 
         </Routes>

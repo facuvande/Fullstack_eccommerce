@@ -117,6 +117,30 @@ public class UserController {
 
     }
 
+    @PostMapping("/api/addPayment/{payment_id}")
+    public ResponseEntity<?> addPayment(@RequestHeader("Authorization") String authorizationHeader, @PathVariable Long payment_id){
+        System.out.println(authorizationHeader);
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+            String token = authorizationHeader.substring(7);
+            boolean isValidToken = userService.validateToken(token);
+            if(isValidToken){
+                String email_user = userService.getUsernameByToken(token);
+                User user = userService.getUserByEmail(email_user);
+
+                if(user == null){
+                    return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+                }else{
+                    return userService.addPaymentByUserEmail(email_user, payment_id);
+                }
+            }else{
+                return new ResponseEntity<>(new ValidationTokenDTO(false, null, null, null, null, null, null), HttpStatus.BAD_REQUEST);
+            }
+        }else{
+            System.out.println("entra");
+            return new ResponseEntity<>("Not authenticated", HttpStatus.UNAUTHORIZED);
+        }
+    }
+
     @DeleteMapping("/api/deleteFavorite/{id_product}")
     public ResponseEntity<?> deleteProductFavoriteByEmail(@PathVariable Long id_product, @RequestHeader("Authorization") String authorizationHeader){
         System.out.println("llega");

@@ -215,6 +215,18 @@ public class UserService implements IUserService{
     }
 
     @Override
+    public ResponseEntity<?> addPaymentByUserEmail(String email_user, Long payment_id) {
+        User myUser = userRepository.findByEmail(email_user).orElse(null);
+        if(myUser != null){
+            List<Long> payments_ids = myUser.getPayments_ids();
+            payments_ids.add(payment_id);
+            myUser.setPayments_ids(payments_ids);
+            userRepository.save(myUser);
+        }
+        return null;
+    }
+
+    @Override
     public ResponseEntity<?> deleteProductFavoriteByEmail(String email, Long id_product) {
         User user = userRepository.findByEmail(email).orElse(null);
         if(user == null){

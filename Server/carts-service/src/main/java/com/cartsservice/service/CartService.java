@@ -5,9 +5,12 @@ import com.cartsservice.dto.ProductDTO;
 import com.cartsservice.model.Cart;
 import com.cartsservice.model.CartItem;
 import com.cartsservice.repository.ICartRepository;
+import com.cartsservice.repository.IPaymentAPI;
 import com.cartsservice.repository.IProductAPI;
 import com.cartsservice.repository.IUserAPI;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +27,8 @@ public class CartService implements ICartService{
     private IUserAPI userAPI;
     @Autowired
     private IProductAPI productAPI;
+    @Autowired
+    private IPaymentAPI paymentAPI;
     @Override
     public Long createCart() {
         Cart myCart = new Cart();
@@ -140,5 +145,15 @@ public class CartService implements ICartService{
         }
 
         return myCart;
+    }
+
+    @Override
+    public ResponseEntity<String> createAndRedirect(Long id_cart) {
+        Cart myCart = cartRepository.findById(id_cart).orElse(null);
+        if(myCart != null){
+            return paymentAPI.createAndRedirect(myCart.getTotal_ammount());
+        }else{
+            return new ResponseEntity<>("Cart not Found", HttpStatus.NOT_FOUND);
+        }
     }
 }

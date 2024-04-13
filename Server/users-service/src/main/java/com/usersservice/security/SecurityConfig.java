@@ -49,7 +49,7 @@ public class SecurityConfig {
                                 .requestMatchers("/users/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/users/api/**").hasAnyAuthority("ADMIN","USER")
                                 .requestMatchers(HttpMethod.PUT, "/users/api/**").hasAuthority("USER")
-                                .requestMatchers(HttpMethod.POST, "/users/api/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/users/api/**").hasAnyAuthority("USER","ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/users/api/**").hasAuthority("ADMIN")
                                 .anyRequest().authenticated()
                 )

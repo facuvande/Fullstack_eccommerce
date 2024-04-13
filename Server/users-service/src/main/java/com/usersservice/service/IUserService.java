@@ -24,6 +24,7 @@ public interface IUserService {
     public void deleteUserById(Long id_user);
     public Boolean existsByEmail(String email);
     public ResponseEntity<?> saveProductFavoriteByEmail(String email, Long id_product);
+    public ResponseEntity<?> addPaymentByUserEmail(String email_user, Long payment_id);
     public ResponseEntity<?> deleteProductFavoriteByEmail(String email, Long id_product);
     public ResponseEntity<List<Long>> getFavoriteProductsIds(String email);
     public List<User> findUserIdsByFavoriteProductId(Long id_product);

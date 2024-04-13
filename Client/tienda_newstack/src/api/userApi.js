@@ -12,6 +12,19 @@ export const getUsersRequest = (token) => {
     }
 }
 
+export const createPaymentRequest = (id_payment, token) => {
+    if(token){
+        return fetch(`${instance}/api/addPayment/${id_payment}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    }
+}
+
+
 export const editProfileRequest = (newData, token) => {
     if (token) {
         return fetch(`${instance}/api/editUser`, {

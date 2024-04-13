@@ -24,6 +24,15 @@ public class CartController {
     }
 
     // ADMIN OR USER
+    @GetMapping("/purchase/{id_cart}")
+    public ResponseEntity<String> createAndRedirect(HttpServletRequest request, @PathVariable Long id_cart){
+        if(!hasAdminUserRole(request)){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return cartService.createAndRedirect(id_cart);
+    }
+
+    // ADMIN OR USER
     @GetMapping("/{id_cart}")
     public ResponseEntity<CartResponseDTO> getCartById(@PathVariable Long id_cart, HttpServletRequest request){
         if(!hasAdminUserRole(request)){

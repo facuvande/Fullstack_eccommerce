@@ -29,3 +29,13 @@ export const deleteProductToCartRequest = (id_cart, id_product, token) => {
         },
     });
 }
+
+export const getPurchaseRequest = (id_cart, token) => {
+    return fetch(`${instance}/purchase/${id_cart}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    });
+}
