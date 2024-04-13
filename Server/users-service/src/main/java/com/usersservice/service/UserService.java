@@ -9,6 +9,8 @@ import com.usersservice.repository.ICartAPI;
 import com.usersservice.repository.IRolRepository;
 import com.usersservice.repository.IUserRepository;
 import com.usersservice.security.JwtTokenGenerator;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,8 @@ public class UserService implements IUserService{
     }
 
     @Override
+    @CircuitBreaker(name="carts-service", fallbackMethod = "fallbackCreateCart")
+    @Retry(name="carts-service")
     public ResponseEntity<?> createUser(UserDTO userDTO, HttpServletResponse response) {
 
         // Verificar si existe el usuario con ese email
@@ -86,6 +90,10 @@ public class UserService implements IUserService{
 
 
         return new ResponseEntity<>(Map.of("message", "Registro de usuario exitoso", "info", userResponseDTO), HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> fallbackCreateCart(Throwable throwable){
+        return new ResponseEntity<>("Error en comunicacion entre microservicios", HttpStatus.BAD_REQUEST);
     }
 
     @Override

@@ -8,6 +8,8 @@ import com.cartsservice.repository.ICartRepository;
 import com.cartsservice.repository.IPaymentAPI;
 import com.cartsservice.repository.IProductAPI;
 import com.cartsservice.repository.IUserAPI;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,8 @@ public class CartService implements ICartService{
     }
 
     @Override
+    @CircuitBreaker(name="users-service", fallbackMethod = "fallbackGetRoleByToken")
+    @Retry(name="users-service")
     public String getRoleByToken(String token) {
         ResponseEntity<String> response = userAPI.getRoleByToken(token);
         if(response.getStatusCode().is4xxClientError()){
@@ -45,8 +49,13 @@ public class CartService implements ICartService{
             return response.getBody();
         }
     }
+    public String fallbackGetRoleByToken(Throwable throwable){
+        return "Error en la comunicacion entre microservicios.";
+    }
 
     @Override
+    @CircuitBreaker(name="products-service", fallbackMethod = "fallbackGetCartById")
+    @Retry(name="products-service")
     public CartResponseDTO getCartById(Long id_cart) {
         Cart myCart = cartRepository.findById(id_cart).orElse(null);
         List<Long> myProductsIds = new ArrayList<>();
@@ -74,8 +83,18 @@ public class CartService implements ICartService{
 
         return cartResponseDTO;
     }
+    public CartResponseDTO fallbackGetCartById(Throwable throwable){
+        CartResponseDTO cartResponseDTO = new CartResponseDTO();
+        cartResponseDTO.setId_cart(null);
+        cartResponseDTO.setItems(null);
+        cartResponseDTO.setTotal_ammount(null);
+        return cartResponseDTO;
+    }
+
 
     @Override
+    @CircuitBreaker(name="products-service", fallbackMethod = "fallbackAddProductToCart")
+    @Retry(name="products-service")
     public Cart addProductToCart(Long id_cart, Long id_product, String quantity) {
         Cart myCart = cartRepository.findById(id_cart).orElse(null);
         List<CartItem> myCartProductList = myCart.getItems();
@@ -116,7 +135,14 @@ public class CartService implements ICartService{
         return cartRepository.save(myCart);
     }
 
+    public Cart fallbackAddProductToCart(Throwable throwable){
+        return new Cart(null, null, null);
+    }
+
+
     @Override
+    @CircuitBreaker(name="products-service", fallbackMethod = "fallbackDeleteProductToCart")
+    @Retry(name="products-service")
     public Cart deleteProductToCart(Long id_cart, Long id_product) {
         Cart myCart = cartRepository.findById(id_cart).orElse(null);
 
@@ -146,6 +172,11 @@ public class CartService implements ICartService{
         return myCart;
     }
 
+    public Cart fallbackDeleteProductToCart(Throwable throwable){
+        return new Cart(null, null, null);
+    }
+
+
     @Override
     public void deleteAllProductToCart(Long id_cart) {
         Cart myCart = cartRepository.findById(id_cart).orElse(null);
@@ -156,6 +187,8 @@ public class CartService implements ICartService{
     }
 
     @Override
+    @CircuitBreaker(name="payments-service", fallbackMethod = "fallbackCreateAndRedirectPayment")
+    @Retry(name="payments-service")
     public ResponseEntity<String> createAndRedirect(Long id_cart) {
         Cart myCart = cartRepository.findById(id_cart).orElse(null);
         if(myCart != null){
@@ -164,8 +197,13 @@ public class CartService implements ICartService{
             return new ResponseEntity<>("Cart not Found", HttpStatus.NOT_FOUND);
         }
     }
+    public ResponseEntity<String> fallbackCreateAndRedirectPayment(Throwable throwable){
+        return new ResponseEntity<>("Error en comunicacion entre microservicios", HttpStatus.BAD_REQUEST);
+    }
 
     @Override
+    @CircuitBreaker(name="products-service", fallbackMethod = "fallbackCreateAndRedirectPayment")
+    @Retry(name="products-service")
     public ResponseEntity<String> okPurchase(Long id_cart) {
         System.out.println("Se ejecuta el endpoint");
         Cart myCart = cartRepository.findById(id_cart).orElse(null);
