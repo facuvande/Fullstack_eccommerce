@@ -8,7 +8,6 @@ import com.cartsservice.repository.ICartRepository;
 import com.cartsservice.repository.IPaymentAPI;
 import com.cartsservice.repository.IProductAPI;
 import com.cartsservice.repository.IUserAPI;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -148,6 +147,15 @@ public class CartService implements ICartService{
     }
 
     @Override
+    public void deleteAllProductToCart(Long id_cart) {
+        Cart myCart = cartRepository.findById(id_cart).orElse(null);
+        assert myCart != null;
+        myCart.getItems().clear();
+        myCart.setTotal_ammount(0D);
+        cartRepository.save(myCart);
+    }
+
+    @Override
     public ResponseEntity<String> createAndRedirect(Long id_cart) {
         Cart myCart = cartRepository.findById(id_cart).orElse(null);
         if(myCart != null){
@@ -155,5 +163,19 @@ public class CartService implements ICartService{
         }else{
             return new ResponseEntity<>("Cart not Found", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Override
+    public ResponseEntity<String> okPurchase(Long id_cart) {
+        System.out.println("Se ejecuta el endpoint");
+        Cart myCart = cartRepository.findById(id_cart).orElse(null);
+        assert myCart != null;
+        List<CartItem> myCartItems = myCart.getItems();
+        for (CartItem item : myCartItems) {
+            System.out.println(item.getQuantity());
+            productAPI.decreaseStock(item.getId_product(), item.getQuantity());
+        }
+        this.deleteAllProductToCart(id_cart);
+        return new ResponseEntity<>("Ok", HttpStatus.OK);
     }
 }

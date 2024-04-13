@@ -1,23 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { FaBars } from 'react-icons/fa'
-import { ImCross  } from 'react-icons/im'
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
-import { FaRegUserCircle } from "react-icons/fa";
-import { FaOpencart } from "react-icons/fa";
-import logoUser from '../assets/person.png'
-import { Navigate } from 'react-router-dom'
 
 export const Navbar = () => {
 
     const { user, loading } = useAuth();
     const [showMenu, setShowMenu] = useState(false)
     const [open, setOpen] = useState(false)
-
-    if(user){
-        //console.log(user)
-    }
 
     if(loading) return <h1>Loading...</h1>
 

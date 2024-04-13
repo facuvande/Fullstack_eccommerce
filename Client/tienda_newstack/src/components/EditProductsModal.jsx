@@ -16,9 +16,7 @@ export const EditProductsModal = ({toggleEditModal, product, onSubmit}) => {
 
     const handleFormSubmit = handleSubmit(async (data) => {
         const completeData = {id_product: product.id_product ,...data, thumbnail: product.thumbnail}
-        if(isEqual(completeData, product)){
-            console.log('No se realizaron cambios')
-        }else{
+        if(!isEqual(completeData, product)){
             await onSubmit(completeData)
         }
     })

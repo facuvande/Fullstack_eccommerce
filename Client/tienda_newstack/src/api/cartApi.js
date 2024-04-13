@@ -10,6 +10,16 @@ export const getCartRequest = (id_cart, token) => {
     });
 }
 
+export const okPurchase = (id_cart, token) => {
+    return fetch(`${instance}/okPurchase/${id_cart}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+}
+
 export const addProductToCartRequest = (id_cart, id_product, quantity, token) => {
     return fetch(`${instance}/addProduct/${id_cart}/${id_product}/${quantity}`, {
         method: 'POST',

@@ -1,6 +1,5 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useAuth } from '../context/AuthContext';
 import { editProfileRequest } from '../api/userApi.js';
 import Cookies from 'js-cookie';
 
@@ -16,7 +15,6 @@ export const ProfileUser = ({user}) => {
 
     const onSubmit = handleSubmit( async (values) => {
         if(values.email === user.email && values.name === user.name && values.lastname === user.lastname){
-            console.log('No se realizaron cambios')
         }else{
             const cookies = Cookies.get()
             const res = await editProfileRequest(values, cookies.token)

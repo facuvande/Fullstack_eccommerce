@@ -2,7 +2,6 @@ import { createContext, useState, useContext } from "react";
 import { loginRequest, registerRequest, verifyTokenRequest } from "../api/auth";
 import { useEffect } from "react";
 import Cookies from 'js-cookie';
-import { set } from "react-hook-form";
 
 export const AuthContext = createContext();
 
@@ -34,11 +33,9 @@ export const AuthProvider = ({children}) => {
     const login = async ( user ) => {
         try {
             const res = await loginRequest(user);
-            console.log(res);
             setUser(res.data.info);
             setIsAuthenticated(true);
         } catch (error) {
-            console.log(error)
             if(error.response.status == 401){
                 setErrors("Usuario o contraseña incorrectos");
             }

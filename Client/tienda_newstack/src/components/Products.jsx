@@ -1,7 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import image from '../assets/iphone.png'
 import { Product } from './Product';
 
 export const Products = () => {
@@ -15,13 +13,12 @@ export const Products = () => {
         .then(response => {
             if(response.ok){
                 response.json().then(data => {
-                    console.log(data)
                     setProducts(data)
                 })
             }
         })
         .catch(error => {
-            console.log(error);
+            throw error
         })
     }, [])
     

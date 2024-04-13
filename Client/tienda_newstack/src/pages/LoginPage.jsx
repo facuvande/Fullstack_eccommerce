@@ -11,7 +11,6 @@ export const LoginPage = () => {
     const { login, errors: LoginErrors } = useAuth();
     const { user } = useAuth();
 
-    //console.log(user.rol[0].name)
     if(user) return <Navigate to="/" replace/>
 
     const onSubmit = handleSubmit(data => {

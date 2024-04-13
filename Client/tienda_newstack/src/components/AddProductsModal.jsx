@@ -1,6 +1,5 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import isEqual from 'lodash/isEqual'
 
 export const AddProductsModal = ({toggleAddProductModal, handleAddProduct}) => {
     
@@ -14,7 +13,6 @@ export const AddProductsModal = ({toggleAddProductModal, handleAddProduct}) => {
         formData.append('brand', data.brand);
         formData.append('description', data.description);
         formData.append('multipartFile', data.multipartFile[0]);
-        console.log(data.multipartFile[0])
         await handleAddProduct(formData)
     })
 

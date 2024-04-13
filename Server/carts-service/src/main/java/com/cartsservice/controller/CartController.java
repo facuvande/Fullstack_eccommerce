@@ -32,6 +32,11 @@ public class CartController {
         return cartService.createAndRedirect(id_cart);
     }
 
+    @GetMapping("/okPurchase/{id_cart}")
+    public ResponseEntity<String> okPurchase(@PathVariable Long id_cart){
+        return cartService.okPurchase(id_cart);
+    }
+
     // ADMIN OR USER
     @GetMapping("/{id_cart}")
     public ResponseEntity<CartResponseDTO> getCartById(@PathVariable Long id_cart, HttpServletRequest request){

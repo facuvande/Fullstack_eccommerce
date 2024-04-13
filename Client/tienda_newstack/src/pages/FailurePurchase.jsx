@@ -12,13 +12,11 @@ const FailurePurchase = () => {
         for (const [key, value] of urlParams.entries()) {
           params[key] = value;
         }
-        console.log('Parámetros de la URL:', params);
-        setPurchaseDetails(params); // Almacenar los parámetros en el estado del componente
+        setPurchaseDetails(params); 
       };
   
       getParamsFromUrl();
     }, []);
-    console.log(purchaseDetails)
 
   return (
     <div className="min-h-screen bg-gray-800 flex justify-center items-center">

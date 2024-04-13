@@ -37,7 +37,7 @@ export const ProductDetails = () => {
     }
 
     const incrementQuantity = () => {
-        if(quantity <= product?.stock ) setQuantity(quantity + 1)
+        if(quantity < product?.stock ) setQuantity(quantity + 1)
     }
 
     const showAlert = (title, icon) => {
@@ -58,8 +58,6 @@ export const ProductDetails = () => {
                 }, 2300)
                 return () => clearTimeout(timer)
             }else{
-                console.log(id_product, quantity)
-                console.log(user)
                 // Traemos el carrito del usuario
                 getCartRequest(user.id_cart, Cookies.get('token')).then(response => response.json()).then(data => {
                     const itemsCart = data.items;
@@ -80,7 +78,7 @@ export const ProductDetails = () => {
 
                     addProductToCartRequest(user.id_cart, id_product, quantity, Cookies.get('token'))
                     showAlert('Producto agregado correctamente', 'success')
-                    console.log(data)
+
                 })
             }
         }
@@ -113,7 +111,6 @@ export const ProductDetails = () => {
     useEffect(() => {
         const found = isProductFavoriteByUser(user);
         setIsProductFavorite(found);
-        console.log(product)
     }, [user])
 
     return (

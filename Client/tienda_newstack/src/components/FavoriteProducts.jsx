@@ -14,7 +14,6 @@ export const FavoriteProducts = ({user}) => {
             const token = Cookies.get('token')
             await getFavoriteProductsRequest(token).then(response => response.json()).then(data => {
                 setProductsFavorites(data)
-                console.log(data)
             })
         }
         getFavoriteProducts()

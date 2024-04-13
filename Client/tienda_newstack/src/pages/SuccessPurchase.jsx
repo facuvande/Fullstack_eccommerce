@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { okPurchase } from '../api/cartApi';
+import Cookies from 'js-cookie';
 
 const SuccessPurchase = () => {
   const [purchaseDetails, setPurchaseDetails] = useState(null);
+  const { user } = useAuth();
 
   useEffect(() => {
-    const getParamsFromUrl = () => {
+    const getParamsFromUrl = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const params = {};
       for (const [key, value] of urlParams.entries()) {
         params[key] = value;
       }
-      console.log('Parámetros de la URL:', params);
       setPurchaseDetails(params); // Almacenar los parámetros en el estado del componente
+      await okPurchase(user.id_cart, Cookies.get('token'))
     };
 
     getParamsFromUrl();
   }, []);
+
 
   return (
     <div className="min-h-screen bg-gray-800 flex justify-center items-center">
