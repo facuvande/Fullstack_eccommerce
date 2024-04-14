@@ -13,7 +13,7 @@ Para una demostración visual del proyecto, puedes ver el video en [YouTube](htt
 
 ## Características Principales
 
-- **Cliente:** Desarrollado con React, Vite, React Router, y Tailwind CSS.
+- **Cliente:** Desarrollado con React, Vite, React Router con proteccion de rutas por rol de usuario y autenticacion, y Tailwind CSS. Ademas se utiliza una validacion en formularios para evitar que se envie al backend informacion no deseada o incompleta.
 - **Servidor:** API de microservicios utilizando Spring Boot, Spring Cloud y Eureka SV.
 - **Base de Datos:** MySQL, con Spring Data JPA para la comunicación.
 - **Autenticación:** Uso de Spring Security para autenticación de usuarios mediante JWT, con contraseñas encriptadas y autorización por roles (USER y ADMIN).
@@ -27,9 +27,12 @@ Para una demostración visual del proyecto, puedes ver el video en [YouTube](htt
 ### Para Usuarios:
 
 - Registro y login de usuarios.
+- Edicion de nombre y apellido del usuario.
 - Gestión de carrito de compras, incluyendo agregar, quitar, comprar productos, y verificación de stock.
 - Gestión de productos favoritos.
 - Visualización de detalles de productos.
+- Al efectuarse una compra se resta el stock del producto y se borra el carrito del usuario.
+- Mensaje en caso de compra fallida.
 - Cierre de sesión desde el frontend.
 
 ### Para Administradores:
