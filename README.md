@@ -14,7 +14,7 @@ Para una demostración visual del proyecto, puedes ver el video en [YouTube](htt
 ## Características Principales
 
 - **Cliente:** Desarrollado con React, Vite, React Router, y Tailwind CSS.
-- **Servidor:** API de microservicios utilizando Spring Boot y Spring Cloud.
+- **Servidor:** API de microservicios utilizando Spring Boot, Spring Cloud y Eureka SV.
 - **Base de Datos:** MySQL, con Spring Data JPA para la comunicación.
 - **Autenticación:** Uso de Spring Security para autenticación de usuarios mediante JWT, con contraseñas encriptadas y autorización por roles (USER y ADMIN).
 - **Microservicios:** Implementación de microservicios como users-service, carts-service, products-service, payments-service, y eureka-sv, comunicándose mediante Feign y utilizando el patrón de diseño Circuit Breaker.
